@@ -37,3 +37,28 @@
   from { transform: scale(1); opacity: 1; }
   to { transform: scale(1.1); opacity: 0.8; }
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.animated-fade-in {
+  animation: fadeIn 2s ease-out forwards;
+}
+
+.zoom-element {
+  transition: transform 0.3s ease-in-out; /* Smooth transition for transform changes */
+}
+
+.zoom-element:hover {
+  transform: scale(1.2); /* Zooms the element to 120% of its original size */
+}
+
+
+

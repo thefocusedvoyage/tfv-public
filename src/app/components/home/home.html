@@ -5,28 +5,29 @@
                 <div class="d-flex justify-content-center align-items-center h-100">
                     <div class="d-block text-center">
                         <h1 class="poppins-font regular animated-circle">THE FOCUSED VOYAGE</h1>
-                        <h4 class="poppins-font thin">Where every frame tells a story.</h4>
-                        <div class="social-links d-flex justify-content-center align-items-center my-2">
-                            <a href="https://www.instagram.com/thefocusedvoyage/" target="_blank" class="social-link color-grey">
+                        <h4 class="poppins-font thin"></h4>
+                        <ngx-typed-js [strings]="typedStrings"  [showCursor]="true" [typeSpeed]="50" [backSpeed]="20" [loop]="true" >
+                            <h4 class="poppins-font thin typing d-inline"></h4>
+                        </ngx-typed-js>
+                        <div class="social-links d-flex justify-content-center align-items-center my-2 ">
+                            <a href="https://www.instagram.com/thefocusedvoyage/" target="_blank" class="social-link color-grey zoom-element">
                                 <i class="bi bi-instagram mx-3" style="font-size: 2rem; color: black;"></i>
                             </a>
-                            <a href="https://api.whatsapp.com/send/?phone=918090757701&text&type=phone_number&app_absent=0" target="_blank" class="social-link color-grey">
+                            <a href="https://api.whatsapp.com/send/?phone=918090757701&text&type=phone_number&app_absent=0" target="_blank" class="social-link color-grey zoom-element">
                                 <i class="bi bi-whatsapp mx-3" style="font-size: 2rem; color: black;"></i>
                             </a>
-                            <a href="mailto:contact@focusedvoyage.com" target="_blank" class="social-link color-grey">
+                            <a href="mailto:contact@focusedvoyage.com" target="_blank" class="social-link color-grey zoom-element">
                                 <i class="bi bi-envelope mx-3" style="font-size: 2rem; color: black;"></i>
                             </a>
-                            <a href="tel:+918090757701" target="_blank" class="social-link color-grey">
+                            <a href="tel:+918090757701" target="_blank" class="social-link color-grey zoom-element">
                                 <i class="bi bi-telephone mx-3" style="font-size: 2rem; color: black;"></i>
                             </a>
                         </div>
                     </div>
-                    
-                    
                 </div>
             </div>
-            <div  class="col-md-5 d-none d-md-block  h-100  p-0 m-0">
-                <img [src]="'images/11.jpg'" class="img-fluid h-100 w-100" alt="Focused Voyage Image" />
+            <div  class="col-md-5 d-none d-md-block  h-100  p-0 m-0 overflow-hidden animated-fade-in" style="border-radius: 60% 40% 70% 30% / 30% 30% 70% 70%;">
+                <img [src]="'images/12.JPG'" class="img-fluid h-100 w-100" alt="Focused Voyage Image" />
             </div>
         </div>
     </div>
