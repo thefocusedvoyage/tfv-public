@@ -57,3 +57,9 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+## deployment to github pages
+
+1.ng build --configuration production  
+2.npx angular-cli-ghpages --dir=dist/tfv-public/browser --cname=thefocusedvoyage.in
