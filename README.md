@@ -61,5 +61,6 @@ For more information on using the Angular CLI, including detailed command refere
 
 ## deployment to github pages
 
-1.ng build --configuration production  
-2.npx angular-cli-ghpages --dir=dist/tfv-public/browser --cname=thefocusedvoyage.in
+1. npm i angular-cli-ghpages
+2.ng build --configuration production  
+3.npx angular-cli-ghpages --dir=dist/tfv-public/browser --cname=thefocusedvoyage.in
