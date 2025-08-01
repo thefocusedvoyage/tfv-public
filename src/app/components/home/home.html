@@ -27,9 +27,23 @@
                 </div>
             </div>
             <div  class="col-md-5 d-none d-md-block  h-100  p-0 m-0 overflow-hidden animated-fade-in" style="border-radius: 60% 40% 70% 30% / 30% 30% 70% 70%;">
-                <img [src]="'images/11.jpg'" class="img-fluid h-100 w-100" alt="Focused Voyage Image" />
+                <ngb-carousel
+                    class="h-100"
+	                #carousel
+                    [animation]="true"
+                    [showNavigationArrows]="false"
+                    [showNavigationIndicators]="false"
+	                [interval]="2000"
+                >
+@for (image of images; track image) {
+                    <ng-template ngbSlide>
+				        <div class="overflow-hidden h-100">
+					        <img [src]="'images/'+ image" class="img-fluid h-100 w-100"  [alt]="'Focused Voyage Image' + image" />
+				        </div>
+                    </ng-template>
+                }
+                </ngb-carousel>
             </div>
         </div>
     </div>
 </section>
-
