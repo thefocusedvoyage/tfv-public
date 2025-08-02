@@ -1,6 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import * as anime from 'animejs';
+
+const {
+  animate,
+  createTimeline,
+  createTimer,
+  stagger,
+  text,
+  svg,
+  createDraggable
+} = anime;
 
 import {NgxTypedJsModule} from 'ngx-typed-js';
 
@@ -15,7 +26,21 @@ import {NgxTypedJsModule} from 'ngx-typed-js';
   styleUrl: './home.scss'
 })
 
-export class Home {
+export class Home implements AfterViewInit {
+
+  ngAfterViewInit(): void {
+    this.enableDrag();
+    
+   
+    
+  }
+
+
+  enableDrag() {
+    createDraggable('.drag.enabled', {
+      x: true
+    });
+  }
 
 public typedStrings = [
     'Where every frame tells a story.',
