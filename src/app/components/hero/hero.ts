@@ -45,7 +45,36 @@ export class Hero implements AfterViewInit {
       { y: 10, duration: 0.8, repeat: -1, yoyo: true, ease: 'power1.inOut' }
     );
 
-    
+    const focusBlurTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.hero-section',
+        start: 'top top',
+        end: 'bottom top',
+      }
+    });
+
+    // Foreground blur: tagline and logo
+    focusBlurTimeline.to('.logo-text', {
+      filter: 'blur(5px)',
+      scale: 1.05,
+      opacity: 0.3,
+      ease: 'power2.out'
+    }, 0);
+
+    focusBlurTimeline.to('.tag-word', {
+      filter: 'blur(6px)',
+      opacity: 0.2,
+      ease: 'power2.out',
+      stagger: 0.05
+    }, 0);
+
+    // Background SVG lines become sharper and slightly shift
+    focusBlurTimeline.to('.svg-bg path', {
+      opacity: 0.3,
+      scale: 1.02,
+      ease: 'power2.out',
+      stagger: 0.1
+    }, 0);
   
       
   }
