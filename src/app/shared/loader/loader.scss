@@ -1,7 +1,7 @@
 .logo-loader {
   position: fixed;
   inset: 0;
-  background: #ffffff;
+  background: var(--primary-background);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +18,6 @@
   .draw-path {
     stroke-width: 1;
     fill: none;
-    stroke: #000000;
+    stroke: var(--primary-text)
   }
 }

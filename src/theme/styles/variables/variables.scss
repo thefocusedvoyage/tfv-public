@@ -1,0 +1,9 @@
+// Importing theme variables
+@use './dark-theme-variables.scss';
+@use './light-theme-variables.scss';
+
+// Applying theme variables to the body
+    body {
+      background-color: var(--primary-background);
+      color: var(--primary-text);
+    }

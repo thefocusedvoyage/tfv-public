@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Loader } from './shared/loader/loader'; // Adjust the import path as necessary
+import { Loader } from './shared/loader/loader'; 
 import { SharedModule } from './shared/shared';
+import { ThemeService } from './services/theme.service'; 
 
 @Component({
   selector: 'app-root',
@@ -14,11 +15,23 @@ import { SharedModule } from './shared/shared';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
-  protected readonly title = signal('tfv-public');
+export class App implements OnInit {
+
+  constructor(private themeService: ThemeService) {
+
+  }
+
+  ngOnInit() {
+    this.themeService.loadTheme('dark'); // Set default theme
+  }
+  
   public animationDone = false;
 
   setAnimationDone() {
     this.animationDone = true;
+  }
+
+  public toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }
