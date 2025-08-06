@@ -1,6 +1,20 @@
-<section id="about" class="container py-5">
-  <h2 class="text-center mb-4 display-5 poppins-font bold">About Me</h2>
-  <p class="lead mx-auto w-75 text-center about-text poppins-font normal">
-    I'm Harsh, the eye behind <strong>The Focused Voyage</strong> — capturing stories that speak through stillness, light, and wild moments.
-  </p>
+<section id="about" class="container py-5 position-relative d-flex flex-column flex-md-row align-items-center justify-content-center">
+  <!-- SVG Background Decoration -->
+  <svg class="about-svg-bg position-absolute top-0 start-0 w-100 h-100" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <path d="M0,90 Q25,75 50,90 T100,90" stroke="var(--primary-text)" stroke-width="0.5" fill="none" opacity="0.18"/>
+    <path d="M0,85 Q25,65 50,85 T100,85" stroke="var(--primary-text)" stroke-width="0.5" fill="none" opacity="0.10"/>
+    <path d="M0,80 Q25,55 50,80 T100,80" stroke="var(--primary-text)" stroke-width="0.5" fill="none" opacity="0.05"/>
+  </svg>
+  <!-- Founder Image -->
+  <div class="founder-image position-relative me-md-5 mb-4 mb-md-0">
+        <img [src]="'images/founder.png'" alt="Harsh Chauhan" class="img-fluid rounded-circle shadow founder-img h-auto" style="max-width: 14rem;" />
+  </div>
+
+  <!-- About Content -->
+  <div class="about-content text-center text-md-start">
+    <h2 class="mb-4 display-5 poppins-font bold">About Me</h2>
+    <p class="lead about-text poppins-font normal mx-auto mx-md-0" style="max-width: 600px;">
+      I'm Harsh, the eye behind <strong>The Focused Voyage</strong> — capturing stories that speak through stillness, light, and wild moments.
+    </p>
+  </div>
 </section>

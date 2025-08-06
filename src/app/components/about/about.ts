@@ -16,7 +16,8 @@ export class About implements AfterViewInit {
 
     ScrollTrigger.create({
       trigger: section,
-      start: 'top 80%',
+      start: 'top 85%',
+      once: true,
       onEnter: () => {
         gsap.to(section, {
           opacity: 1,
@@ -38,7 +39,25 @@ export class About implements AfterViewInit {
           delay: 0.3,
           ease: 'power2.out'
         });
+
+        const svgPaths = section.querySelectorAll('.about-svg-bg path');
+        svgPaths.forEach((path: SVGPathElement, i: number) => {
+          const length = path.getTotalLength();
+          gsap.fromTo(path,
+            {
+              strokeDasharray: length,
+              strokeDashoffset: length
+            },
+            {
+              strokeDashoffset: 0,
+              duration: 5,
+              ease: 'power2.out',
+              delay: i * 0.2
+            }
+          );
+        });
       }
     });
+    
   }
 }
