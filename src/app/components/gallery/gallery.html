@@ -1,0 +1,7 @@
+<section id="gallery" class="gallery-section">
+  <div class="gallery-wrapper d-flex">
+    <div class="gallery-item" *ngFor="let img of galleryPhotos">
+      <img [src]="img?.src" [alt]="img?.alt" loading="lazy" />
+    </div>
+  </div>
+</section>

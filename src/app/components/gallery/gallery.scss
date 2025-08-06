@@ -1,0 +1,22 @@
+.gallery-section {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  will-change: transform;
+}
+
+.gallery-item {
+  min-width: 80vw;
+  margin-right: 2rem;
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+}
