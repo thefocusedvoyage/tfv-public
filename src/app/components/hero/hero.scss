@@ -1,0 +1,18 @@
+.hero-section {
+  background: radial-gradient(circle at center, var(--primary-background), var(--primary-background));
+  color: var(--primary-text);
+  overflow: hidden;
+
+  .brand-logo {
+    font-size: 48px;
+    fill: none;
+    stroke: var(--primary-text);
+    stroke-width: 1.5px;
+  }
+
+  .scroll-down {
+    margin-top: 40px;
+    font-size: 1rem;
+    opacity: 0;
+  }
+}
