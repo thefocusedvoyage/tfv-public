@@ -1,7 +1,23 @@
 <section id="gallery" class="gallery-section">
-  <div class="gallery-wrapper d-flex">
-    <div class="gallery-item" *ngFor="let img of galleryPhotos">
-      <img [src]="img?.src" [alt]="img?.alt" loading="lazy" />
+  <!-- Category Tabs -->
+  <div class="gallery-tabs d-flex justify-content-center mb-4">
+    <button *ngFor="let category of categories"
+            class="gallery-tab btn btn-outline-light mx-2"
+            [class.active]="activeCategory === category"
+            (click)="switchCategory(category)">
+      {{ category }}
+    </button>
+  </div>
+
+  <!-- Gallery Grids -->
+  <div class="gallery-wrapper position-relative overflow-hidden">
+    <div *ngFor="let category of categories" 
+         class="gallery-grid position-absolute w-100 d-flex flex-wrap"
+         [ngStyle]="{ transform: activeCategory === category ? 'translateX(0)' : 'translateX(100%)' }"
+         [attr.data-category]="category">
+      <div class="gallery-item p-2" *ngFor="let img of galleryPhotosByCategory[category]">
+        <img [src]="img?.src" [alt]="img?.alt" loading="lazy" class="img-fluid rounded shadow" />
+      </div>
     </div>
   </div>
 </section>

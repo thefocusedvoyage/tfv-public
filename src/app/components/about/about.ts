@@ -77,6 +77,48 @@ export class About implements AfterViewInit {
         );
       }
     });
+
+    const exitTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+
+    exitTimeline.to(section.querySelector('h2'), {
+      y: 40,
+      opacity: 0,
+      ease: 'power2.out'
+    }, 0);
+
+    exitTimeline.to(section.querySelector('.about-text'), {
+      y: 30,
+      opacity: 0,
+      ease: 'power2.out'
+    }, 0);
+
+    exitTimeline.to(section.querySelector('.founder-img'), {
+      y: -30,
+      scale: 0.9,
+      opacity: 0,
+      ease: 'power2.out'
+    }, 0);
+
+    exitTimeline.to(section.querySelectorAll('.about-svg-bg path'), {
+      strokeDashoffset: (i, el) => el.getTotalLength(),
+      opacity: 0,
+      ease: 'power2.out',
+      stagger: 0.05
+    }, 0);
     
+  }
+
+  scrollToGallery(): void {
+    const gallerySection = document.querySelector('#gallery');
+    if (gallerySection) {
+      gallerySection.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }
