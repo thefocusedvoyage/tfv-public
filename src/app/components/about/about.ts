@@ -56,6 +56,25 @@ export class About implements AfterViewInit {
             }
           );
         });
+
+        // Photography-inspired founder image reveal with scale-up and flash-style brightness pulse
+        const founderImage = section.querySelector('.founder-img');
+        gsap.fromTo(founderImage,
+          {
+            opacity: 0,
+            y: 60,
+            scale: 0.6,
+            filter: 'brightness(0.5)'
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: 'brightness(1)',
+            duration: 1.5,
+            ease: 'power4.out'
+          }
+        );
       }
     });
     
