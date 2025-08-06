@@ -50,6 +50,7 @@ export class Hero implements AfterViewInit {
         trigger: '.hero-section',
         start: 'top top',
         end: 'bottom top',
+        scrub: true
       }
     });
 
