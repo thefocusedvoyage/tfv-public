@@ -64,3 +64,10 @@ For more information on using the Angular CLI, including detailed command refere
 1. npm i angular-cli-ghpages
 2.ng build --configuration production  
 3.npx angular-cli-ghpages --dir=dist/tfv-public/browser --cname=thefocusedvoyage.in
+
+
+
+## create source map bundle analyzer
+
+1. npm run build -- --source-map
+2. npm run source-map-explorer (make sure source-map-explorer script is added in package json)

@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "source-map-explorer": "source-map-explorer dist/tfv-public/**/*.js",
+    "host": "ng serve --host 192.168.0.143 --proxy-config proxy.conf.json --port 1305"
   },
   "prettier": {
     "overrides": [
@@ -36,6 +38,7 @@
     "ngx-typed-js": "^2.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "webpack-bundle-analyzer": "^4.10.2",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
@@ -51,6 +54,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "source-map-explorer": "^2.5.3",
     "typescript": "~5.8.2"
   }
 }
