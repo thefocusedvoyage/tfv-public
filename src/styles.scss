@@ -3,8 +3,6 @@
 $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
 // Import the Sass files as usual
 @use "bootstrap-icons/font/bootstrap-icons";
-/* Importing Bootstrap SCSS file. */
-@use 'bootstrap/scss/bootstrap';
 
 // Importing custom fonts, themes and vendor styles
 @use "./theme/theme.scss";

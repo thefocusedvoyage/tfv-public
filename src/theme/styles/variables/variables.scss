@@ -2,6 +2,9 @@
 @use './dark-theme-variables.scss';
 @use './light-theme-variables.scss';
 
+// Importing Bootstrap custom variables
+@use './bootstrap-custom-variables.scss';
+
 // Applying theme variables to the body
     body {
       background-color: var(--primary-background);
