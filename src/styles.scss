@@ -4,7 +4,7 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
 
 // Import the Sass files as usual
 @use "bootstrap-icons/font/bootstrap-icons";
-@use "../src/styles/custom-fonts.scss";
+@use "../src/theme/styles/fonts/custom-fonts.scss";
 
 /* Importing Bootstrap SCSS file. */
 @use 'bootstrap/scss/bootstrap';

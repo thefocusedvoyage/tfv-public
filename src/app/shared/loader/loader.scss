@@ -1,0 +1,23 @@
+.logo-loader {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+  .svg-wrapper {
+    width: 50rem;
+    height: 50rem;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .draw-path {
+    stroke-width: 1;
+    fill: none;
+    stroke: #000000;
+  }
+}

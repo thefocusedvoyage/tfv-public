@@ -28,21 +28,7 @@ import {NgxTypedJsModule} from 'ngx-typed-js';
 
 export class Home implements AfterViewInit {
 
-  ngAfterViewInit(): void {
-    this.enableDrag();
-    
-   
-    
-  }
-
-
-  enableDrag() {
-    createDraggable('.drag.enabled', {
-      x: true
-    });
-  }
-
-public typedStrings = [
+  public typedStrings = [
     'Where every frame tells a story.',
     'Wildlife, travel, and aerial photography expertly crafted.',
     `The best part? It’s just a click away ↓`
@@ -52,5 +38,18 @@ public typedStrings = [
 
 
 	@ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
+
+  ngAfterViewInit(): void {
+    this.enableDrag();
+
+  }
+
+
+  enableDrag() {
+    createDraggable('.drag.enabled', {
+      x: true
+    });
+  }
+
 
 }
