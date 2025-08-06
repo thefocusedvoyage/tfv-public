@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import gsap from '../../../vendor/gsap/gsap';
+import {gsap} from '../../../vendor/gsap/gsap';
 
 @Component({
   selector: 'app-hero',
@@ -44,7 +44,17 @@ export class Hero implements AfterViewInit {
       { y: 0 }, 
       { y: 10, duration: 0.8, repeat: -1, yoyo: true, ease: 'power1.inOut' }
     );
+
+    
   
       
   }
+
+  scrollToAbout(): void {
+  const aboutSection = document.querySelector('#about');
+  if (aboutSection) {
+    aboutSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
 }

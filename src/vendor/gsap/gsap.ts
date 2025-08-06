@@ -56,4 +56,7 @@ gsap.registerPlugin(
     CustomWiggle
 );
 
-export default gsap;
+export {
+    gsap,
+    ScrollTrigger
+}

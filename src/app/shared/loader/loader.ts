@@ -1,7 +1,7 @@
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { AfterViewInit, Component, Inject, PLATFORM_ID,Output, EventEmitter, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 
-import gsap from '../../../vendor/gsap/gsap';
+import {gsap} from '../../../vendor/gsap/gsap';
 
 @Component({
   selector: 'app-loader',
