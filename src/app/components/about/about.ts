@@ -50,7 +50,7 @@ export class About implements AfterViewInit {
             },
             {
               strokeDashoffset: 0,
-              duration: 5,
+              duration: 3.5,
               ease: 'power2.out',
               delay: i * 0.2
             }
