@@ -28,6 +28,32 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { SplitText } from "gsap/SplitText";
 import { TextPlugin } from "gsap/TextPlugin";
-gsap.registerPlugin(Draggable,DrawSVGPlugin,EaselPlugin,Flip,GSDevTools,InertiaPlugin,MotionPathHelper,MotionPathPlugin,MorphSVGPlugin,Observer,Physics2DPlugin,PhysicsPropsPlugin,PixiPlugin,ScrambleTextPlugin,ScrollTrigger,ScrollSmoother,ScrollToPlugin,SplitText,TextPlugin,RoughEase,ExpoScaleEase,SlowMo,CustomEase,CustomBounce,CustomWiggle);
+gsap.registerPlugin(
+    Draggable,
+    DrawSVGPlugin,
+    EaselPlugin,
+    Flip,
+    GSDevTools,
+    InertiaPlugin,
+    MotionPathHelper,
+    MotionPathPlugin,
+    MorphSVGPlugin,
+    Observer,
+    Physics2DPlugin,
+    PhysicsPropsPlugin,
+    PixiPlugin,
+    ScrambleTextPlugin,
+    ScrollTrigger,
+    ScrollSmoother,
+    ScrollToPlugin,
+    SplitText,
+    TextPlugin,
+    RoughEase,
+    ExpoScaleEase,
+    SlowMo,
+    CustomEase,
+    CustomBounce,
+    CustomWiggle
+);
 
 export default gsap;

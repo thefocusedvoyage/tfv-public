@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 // Update the import directory to point to it‘s location within node_modules
 $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
-
 // Import the Sass files as usual
 @use "bootstrap-icons/font/bootstrap-icons";
-@use "../src/theme/styles/fonts/custom-fonts.scss";
-
 /* Importing Bootstrap SCSS file. */
 @use 'bootstrap/scss/bootstrap';
+
+// Importing custom fonts, themes and vendor styles
+@use "./theme/theme.scss";
+
+

@@ -1,18 +1,6 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import * as anime from 'animejs';
-
-const {
-  animate,
-  createTimeline,
-  createTimer,
-  stagger,
-  text,
-  svg,
-  createDraggable
-} = anime;
-
 import {NgxTypedJsModule} from 'ngx-typed-js';
 
 @Component({
@@ -40,16 +28,6 @@ export class Home implements AfterViewInit {
 	@ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
   ngAfterViewInit(): void {
-    this.enableDrag();
-
+  
   }
-
-
-  enableDrag() {
-    createDraggable('.drag.enabled', {
-      x: true
-    });
-  }
-
-
 }

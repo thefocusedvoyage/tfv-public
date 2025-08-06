@@ -1,0 +1,9 @@
+
+//  font styles for the application
+@use './fonts/custom-fonts.scss';
+
+
+
+// Importing theme variables
+@use './styles/variables/dark-theme-variables.scss';
+@use './styles/variables/light-theme-variables.scss';

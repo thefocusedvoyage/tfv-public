@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "source-map-explorer": "source-map-explorer dist/tfv-public/**/*.js",
-    "host": "ng serve --host 192.168.0.143 --proxy-config proxy.conf.json --port 1305"
+    "host": "ng serve --host 192.168.1.44 --proxy-config proxy.conf.json --port 1305"
   },
   "prettier": {
     "overrides": [
@@ -31,7 +31,6 @@
     "@ng-bootstrap/ng-bootstrap": "^19.0.1",
     "@popperjs/core": "^2.11.8",
     "angular-cli-ghpages": "^2.0.3",
-    "animejs": "^4.1.2",
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
     "gsap": "^3.13.0",
