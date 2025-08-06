@@ -22,7 +22,7 @@ export class App implements OnInit {
   }
 
   ngOnInit() {
-    this.themeService.loadTheme('dark'); // Set default theme
+    this.themeService.loadTheme(); // Set default theme
   }
   
   public animationDone = false;
