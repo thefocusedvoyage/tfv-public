@@ -16,17 +16,20 @@ export class Gallery implements AfterViewInit {
     title: 'Wildlife',
     description: 'Explore the beauty of wildlife through stunning photography.',
     image: 'images/wildlife.jpg',
-    dataTarget: 1
+    dataTarget: 1,
+    lastCategory: false
   }, {
     title: 'Travel',
     description: 'Capture the essence of nature with breathtaking landscapes.',
     image: 'images/landscape.jpg',
-    dataTarget: 2
+    dataTarget: 2,
+    lastCategory: false
   }, {
     title: 'Aerial',
     description: 'Discover the charm of urban life through captivating images.',
     image: 'images/urban.jpg',
-    dataTarget: 3
+    dataTarget: 'contact',
+    lastCategory: true
   }]
 
   activeCategory = 'Wildlife';
