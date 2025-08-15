@@ -140,6 +140,8 @@ export class Hero implements AfterViewInit {
       scale: 1.03,
       ease: 'power2.out'
     }, 0);
+
+    
   
       
   }
