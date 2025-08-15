@@ -1,0 +1,11 @@
+<div class="gallery-card d-flex justify-content-center align-items-center text-white flex-shrink-0"
+         style="width: 100vw; height: 100vh; flex-direction: column;">
+      <h1 class="text-color">{{card?.title}}</h1>
+      <div class="gallery-scroll-arrow mt-4 d-flex justify-content-center custom-arrow"
+           [attr.data-target]="card?.dataTarget" role="button" tabindex="0" style="cursor: pointer;">
+        <!-- Site's arrow SVG/icon for consistency -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" viewBox="0 0 16 16" class="custom-arrow-icon">
+          <path fill-rule="evenodd" d="M6.646 12.354a.5.5 0 0 1 0-.708L10.293 8 6.646 4.354a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708 0z"/>
+        </svg>
+      </div>
+</div>
