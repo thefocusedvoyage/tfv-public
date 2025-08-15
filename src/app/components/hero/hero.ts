@@ -70,6 +70,33 @@ export class Hero implements AfterViewInit {
       );
     });
 
+    // Animate floating particles
+    gsap.utils.toArray<SVGCircleElement>('#floating-particles circle').forEach((particle, i) => {
+      gsap.to(particle, {
+        x: 'random(-5,5)',
+        y: 'random(-5,5)',
+        duration: 4 + i * 0.2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: i * 0.1
+      });
+    });
+
+    // Animate Soft Lens Glow
+    const lensGlow = document.querySelector<SVGElement>('#lens-glow');
+    if (lensGlow) {
+      gsap.to(lensGlow, {
+        scale: 1.05,
+        opacity: 0.03,
+        transformOrigin: '50% 50%',
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+    }
+
     // Exit animation for background on scroll out
     gsap.to('.svg-bg', {
       scrollTrigger: {
