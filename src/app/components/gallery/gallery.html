@@ -1,4 +1,46 @@
 <section id="gallery" class="gallery-section vh-100 overflow-hidden">
+  <!-- Category-specific SVG Backgrounds -->
+  <div class="gallery-svg-bg">
+    <!-- Wildlife SVG Background -->
+    <svg class="category-svg wildlife-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <!-- Organic, flowing lines representing wildlife movement -->
+      <path d="M0,30 Q20,10 40,30 T80,30 T100,30" stroke="var(--primary-text)" stroke-width="0.3" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M0,50 Q25,35 50,50 T100,50" stroke="var(--primary-text)" stroke-width="0.4" fill="none" opacity="0.12" class="svg-path"/>
+      <path d="M0,70 Q30,55 60,70 T100,70" stroke="var(--primary-text)" stroke-width="0.3" fill="none" opacity="0.06" class="svg-path"/>
+      <!-- Animal silhouette-inspired curves -->
+      <path d="M10,20 Q30,5 50,20 T90,20" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.04" class="svg-path"/>
+      <path d="M15,80 Q35,65 55,80 T95,80" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.04" class="svg-path"/>
+    </svg>
+    
+    <!-- Travel SVG Background -->
+    <svg class="category-svg travel-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <!-- Mountain/horizon lines -->
+      <path d="M0,60 L25,40 L50,60 L75,35 L100,60" stroke="var(--primary-text)" stroke-width="0.5" fill="none" opacity="0.1" class="svg-path"/>
+      <path d="M0,70 L30,50 L60,70 L90,45 L100,70" stroke="var(--primary-text)" stroke-width="0.3" fill="none" opacity="0.08" class="svg-path"/>
+      <!-- Road/path lines -->
+      <path d="M0,80 Q50,75 100,80" stroke="var(--primary-text)" stroke-width="0.4" fill="none" opacity="0.06" class="svg-path"/>
+      <!-- Compass-inspired elements -->
+      <circle cx="20" cy="20" r="8" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.05" class="svg-path"/>
+      <circle cx="80" cy="25" r="6" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.05" class="svg-path"/>
+    </svg>
+    
+    <!-- Aerial SVG Background -->
+    <svg class="category-svg aerial-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <!-- Grid pattern representing aerial view -->
+      <path d="M0,20 L100,20" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M0,40 L100,40" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M0,60 L100,60" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M0,80 L100,80" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M20,0 L20,100" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M40,0 L40,100" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M60,0 L60,100" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <path d="M80,0 L80,100" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.08" class="svg-path"/>
+      <!-- Drone/camera viewfinder elements -->
+      <rect x="35" y="35" width="30" height="30" stroke="var(--primary-text)" stroke-width="0.3" fill="none" opacity="0.1" class="svg-path"/>
+      <circle cx="50" cy="50" r="12" stroke="var(--primary-text)" stroke-width="0.2" fill="none" opacity="0.06" class="svg-path"/>
+    </svg>
+  </div>
+  
   <div class="gallery-track d-flex flex-row h-100">
     @for (category of categories; track category) {
       <app-gallery-cards [card]="category"></app-gallery-cards>
