@@ -1,9 +1,19 @@
 <section class="hero-section d-flex flex-column justify-content-center align-items-center vh-100 text-center position-relative">
-  <!-- Abstract Line SVG Background -->
-  <svg class="svg-bg position-absolute w-100 h-100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-    <path d="M0,50 Q25,10 50,50 T100,50" stroke="var(--primary-text)" stroke-width="0.5" fill="none" opacity="0.1"/>
-    <path d="M0,60 Q25,20 50,60 T100,60" stroke="var(--primary-text)" stroke-width="0.5" fill="none" opacity="0.08"/>
-    <path d="M0,40 Q25,0 50,40 T100,40" stroke="var(--primary-text)" stroke-width="0.5" fill="none" opacity="0.12"/>
+  <!-- Minimal Wireframe Lens Background -->
+  <svg class="svg-bg position-absolute w-100 h-100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+   
+    <!-- Wireframe lens structure with thin lines -->
+    <g id="wireframe-lens" fill="none" stroke="var(--primary-text)" stroke-opacity="0.25">
+      <!-- Outer concentric circles with thin strokes -->
+      <circle cx="50" cy="50" r="40" stroke-width="0.2" />
+      <circle cx="50" cy="50" r="30" stroke-width="0.2" />
+      <circle cx="50" cy="50" r="20" stroke-width="0.2" />
+      <circle cx="50" cy="50" r="10" stroke-width="0.2" />
+
+      <!-- Hexagonal pattern with thin strokes -->
+      <polygon points="50,15 73,28 73,53 50,66 27,53 27,28" stroke-width="0.2" />
+      <polygon points="50,35 63,43 63,57 50,65 37,57 37,43" stroke-width="0.2" />
+    </g>
   </svg>
 
   <!-- Logo Text -->

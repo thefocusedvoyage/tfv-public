@@ -1,5 +1,5 @@
 .hero-section {
-  background: radial-gradient(circle at center, var(--primary-background), var(--primary-background));
+ // background: radial-gradient(circle at center, var(--primary-background), var(--primary-background));
   color: var(--primary-text);
   overflow: hidden;
 
@@ -15,4 +15,37 @@
     font-size: 1rem;
     opacity: 0;
   }
+}
+
+// SVG background container
+.svg-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; // behind hero content
+  pointer-events: none; // avoid blocking clicks
+}
+
+// Wireframe lens styling
+#wireframe-lens {
+  stroke: var(--primary-text);
+  stroke-width: 0.4;
+  fill: none;
+  opacity: 0.25;
+  transition: stroke 0.3s ease;
+}
+
+// Ensure hero content stays above background
+.hero-section > *:not(.svg-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+// Smooth theme change transitions
+.hero-section,
+.svg-bg,
+#wireframe-lens {
+  transition: background-color 0.3s ease, stroke 0.3s ease;
 }

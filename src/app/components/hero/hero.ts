@@ -3,9 +3,8 @@ import {gsap} from '../../../vendor/gsap/gsap';
 
 @Component({
   selector: 'app-hero',
-  imports: [],
   templateUrl: './hero.html',
-  styleUrl: './hero.scss'
+  styleUrls: ['./hero.scss']
 })
 export class Hero implements AfterViewInit {
   ngAfterViewInit(): void {
@@ -13,37 +12,76 @@ export class Hero implements AfterViewInit {
       { strokeDasharray: 1000, strokeDashoffset: 1000 },
       {
         strokeDashoffset: 0,
-        duration: 20,
+        duration: 15,
         ease: 'power2.out'
       }
     );
 
     gsap.fromTo('.scroll-down', 
       { y: 30, opacity: 0 }, 
-      { y: 0, opacity: 1, delay: 2, duration: 1, ease: 'power2.out' }
+      { y: 0, opacity: 1, delay: 1.5, duration: 1, ease: 'power2.out' }
     );
 
-    gsap.utils.toArray<SVGPathElement>('.svg-bg path').forEach((path, i) => {
-      const length = path.getTotalLength();
-      gsap.fromTo(path, 
-        { strokeDasharray: length, strokeDashoffset: length },
-        { strokeDashoffset: 0, duration: 2 + i, ease: 'power2.inOut', repeat: -1, yoyo: true, delay: i * 0.5 }
-      );
-    });
   
     gsap.from('.tag-word', {
       y: 20,
       opacity: 0,
-      duration: 2,
-      stagger: 0.15,
+      duration: 1.5,
+      stagger: 0.1,
       ease: 'power2.out',
-      delay: 1
+      delay: 0.8
     });
 
      gsap.fromTo('.scroll-icon', 
       { y: 0 }, 
-      { y: 10, duration: 0.8, repeat: -1, yoyo: true, ease: 'power1.inOut' }
+      { y: 10, duration: 1, repeat: -1, yoyo: true, ease: 'power1.inOut' }
     );
+
+    // Aperture blades slow rotation animation
+    gsap.to('#wireframe-lens', {
+      rotation: 360,
+      transformOrigin: '50% 50%',
+      duration: 25,
+      ease: 'none',
+      repeat: -1
+    });
+
+    // Subtle open/close scaling to mimic aperture adjusting
+    gsap.to('#wireframe-lens', {
+      scale: 1.1,
+      transformOrigin: '50% 50%',
+      duration: 3,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true
+    });
+
+    // Animate concentric circles (lens effect)
+    gsap.utils.toArray<SVGCircleElement>('.lens-circle').forEach((circle, i) => {
+      const length = circle.getTotalLength();
+      gsap.fromTo(circle,
+        { strokeDasharray: length, strokeDashoffset: length },
+        {
+          strokeDashoffset: 0,
+          duration: 2.5,
+          delay: i * 0.3,
+          ease: 'power2.inOut'
+        }
+      );
+    });
+
+    // Exit animation for background on scroll out
+    gsap.to('.svg-bg', {
+      scrollTrigger: {
+        trigger: '.hero-section',
+        start: 'bottom bottom',
+        end: 'bottom top',
+        scrub: true
+      },
+      opacity: 0,
+      scale: 0.9,
+      ease: 'power1.out'
+    });
 
     const focusBlurTimeline = gsap.timeline({
       scrollTrigger: {
@@ -56,25 +94,24 @@ export class Hero implements AfterViewInit {
 
     // Foreground blur: tagline and logo
     focusBlurTimeline.to('.logo-text', {
-      filter: 'blur(5px)',
-      scale: 1.05,
-      opacity: 0.3,
+      filter: 'blur(4px)',
+      scale: 1.1,
+      opacity: 0.25,
       ease: 'power2.out'
     }, 0);
 
     focusBlurTimeline.to('.tag-word', {
-      filter: 'blur(6px)',
-      opacity: 0.2,
+      filter: 'blur(5px)',
+      opacity: 0.15,
       ease: 'power2.out',
-      stagger: 0.05
+      stagger: 0.04
     }, 0);
 
     // Background SVG lines become sharper and slightly shift
-    focusBlurTimeline.to('.svg-bg path', {
-      opacity: 0.3,
-      scale: 1.02,
-      ease: 'power2.out',
-      stagger: 0.1
+    focusBlurTimeline.to('.svg-bg', {
+      opacity: 0.35,
+      scale: 1.03,
+      ease: 'power2.out'
     }, 0);
   
       
