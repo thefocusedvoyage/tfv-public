@@ -58,5 +58,6 @@ gsap.registerPlugin(
 
 export {
     gsap,
-    ScrollTrigger
+    ScrollTrigger,
+    ScrollSmoother
 }

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
+import { gsap, ScrollSmoother } from '../../../../vendor/gsap/gsap';
 
 
 @Component({
@@ -7,7 +8,11 @@ import { Component, Input } from '@angular/core';
   templateUrl: './gallery-cards.html',
   styleUrl: './gallery-cards.scss'
 })
-export class GalleryCards {
-
+export class GalleryCards implements AfterViewInit {
+  
   @Input() card: any = { title: '', description: '', image: '', dataTarget: 1, lastCategory: false };
+
+  ngAfterViewInit(): void {
+    
+  }
 }
