@@ -1,5 +1,7 @@
 <section id="gallery" class="gallery-section vh-100 overflow-hidden">
   <div class="gallery-track d-flex flex-row h-100">
-    <app-gallery-cards *ngFor="let category of categories" [card]="category"></app-gallery-cards>
+    @for (category of categories; track category) {
+      <app-gallery-cards [card]="category"></app-gallery-cards>
+    }
   </div>
 </section>
