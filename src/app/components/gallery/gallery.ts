@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ElementRef, inject } from '@angular/core';
 import { gsap ,ScrollTrigger} from '../../../vendor/gsap/gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SharedModule } from '../../shared/shared';
 
 @Component({
@@ -32,6 +33,7 @@ export class Gallery implements AfterViewInit {
 
   activeCategory = 'Wildlife';
   ngAfterViewInit(): void {
+    gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
     const gallerySection = this.el.nativeElement.querySelector('#gallery');
     const track = this.el.nativeElement.querySelector('.gallery-track');
     const cards = this.el.nativeElement.querySelectorAll('.gallery-card');
@@ -49,9 +51,10 @@ export class Gallery implements AfterViewInit {
       scrollTrigger: {
         trigger: gallerySection,
         pin: true,
-        scrub: 1,
+        scrub: 1.5, // slowed down scrub for smoother feel
+        snap: 1 / (totalCards - 1), // snap to each card
         start: 'top top',
-        end: () => scrollDistance,
+        end: () => `+=${gallerySection.clientWidth * totalCards}`, // one full viewport per card
         anticipatePin: 1,
         invalidateOnRefresh: true,
         pinSpacing: true
@@ -198,5 +201,43 @@ export class Gallery implements AfterViewInit {
         }
       );
     });
+
+    // Handle scroll arrow clicks
+    const arrows = this.el.nativeElement.querySelectorAll('.gallery-scroll-arrow');
+    arrows.forEach((arrow: HTMLElement) => {
+      arrow.addEventListener('click', () => {
+        const target = arrow.getAttribute('data-target');
+        if (!target) return;
+        if (target.toLowerCase() === 'contact') {
+          const contactSection = document.querySelector('#contact');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          const targetIndex = parseInt(target, 10);
+          if (!isNaN(targetIndex) && targetIndex < totalCards) {
+            const cardWidth = gallerySection.clientWidth;
+            gsap.to(track, {
+              x: `-${cardWidth * targetIndex}px`,
+              duration: 1,
+              ease: 'power2.inOut'
+            });
+            this.activeCategory = this.categories[targetIndex];
+          }
+        }
+      });
+    });
+
+    // Animate last card's down arrow like Hero/About sections
+    const downArrow = this.el.nativeElement.querySelector('.gallery-scroll-arrow[data-target="contact"] .animated-arrow');
+    if (downArrow) {
+      gsap.to(downArrow, {
+        y: 10,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+        duration: 0.8
+      });
+    }
   }
 }
