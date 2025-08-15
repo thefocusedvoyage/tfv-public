@@ -48,6 +48,12 @@ export class Gallery implements AfterViewInit {
     
     // Ensure proper pinning by setting explicit end distance
     const pinEndDistance = scrollDistance + gallerySection.clientWidth;
+    
+    // Calculate snap points for each card to be centered
+    const snapPoints = [];
+    for (let i = 0; i < totalCards; i++) {
+      snapPoints.push(i / (totalCards - 1));
+    }
 
     gsap.to(track, {
       x: () => `-${scrollDistance}px`,
@@ -56,7 +62,12 @@ export class Gallery implements AfterViewInit {
         trigger: gallerySection,
         pin: true,
         scrub: 1.5, // slowed down scrub for smoother feel
-        snap: 1 / (totalCards - 1), // snap to each card
+        snap: {
+          snapTo: snapPoints, // snap to calculated points
+          duration: { min: 0.3, max: 0.5 }, // snap duration
+          delay: 0, // no delay
+          ease: "power2.out" // snap easing
+        },
         start: 'top top',
         end: () => `+=${pinEndDistance}`, // ensure complete horizontal scroll before unpinning
         anticipatePin: 1,
@@ -97,7 +108,13 @@ export class Gallery implements AfterViewInit {
               duration: 1,
               ease: 'power2.inOut'
             });
-            this.activeCategory = this.categories[targetIndex].title;
+            
+            // Update active category and trigger background animation
+            const newCategory = this.categories[targetIndex].title;
+            if (newCategory !== this.activeCategory) {
+              this.transitionCategoryBackground(this.activeCategory, newCategory);
+              this.activeCategory = newCategory;
+            }
           }
         }
       });
@@ -201,4 +218,6 @@ export class Gallery implements AfterViewInit {
       });
     });
   }
+
+
 }
