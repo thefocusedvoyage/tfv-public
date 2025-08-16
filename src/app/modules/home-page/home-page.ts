@@ -28,10 +28,14 @@ export class HomePage implements AfterViewInit {
   
   constructor() { } 
   ngAfterViewInit(): void {
-      this.logoTextAnimation();
-      
+    this.logoTextAnimation();
+    this.backgroundAnimation();
+     
+  }   
 
-      const svgEl = document.querySelector<SVGSVGElement>('svg');
+  backgroundAnimation() {
+
+    const svgEl = document.querySelector<SVGSVGElement>('svg');
       height = svgEl ? svgEl.clientHeight : 0;
 
 
@@ -272,7 +276,8 @@ export class HomePage implements AfterViewInit {
       window.onbeforeunload = function () {
           window.scrollTo(0, 0);
       };
-  }   
+    
+    }
   
   
   logoTextAnimation() {
