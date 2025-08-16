@@ -6,14 +6,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import {gsap, ScrollTrigger} from '../../../vendor/gsap/gsap';
 let speed = 100;
 let height: number =  0;
-gsap.set("#h2-1", { opacity: 0 });
-gsap.set("#bg_grad", { attr: { cy: "-50" } });
-gsap.set(["#dinoL", "#dinoR"], { y: 80 });
-gsap.set("#dinoL", { x: -10 });
-const mm = gsap.matchMedia();
-mm.add("(max-width: 1922px)", () => {
-    gsap.set(["#cloudStart-L", "#cloudStart-R"], { x: 10, opacity: 1 });
-});
+
 let scene1 = gsap.timeline();
 
 @Component({
@@ -34,7 +27,9 @@ export class HomePage implements AfterViewInit {
   }   
 
   backgroundAnimation() {
-
+    
+    gsap.set("#h2-1", { opacity: 0 });
+    gsap.set("#bg_grad", { attr: { cy: "-50" } });
     const svgEl = document.querySelector<SVGSVGElement>('svg');
       height = svgEl ? svgEl.clientHeight : 0;
 
@@ -229,32 +224,10 @@ export class HomePage implements AfterViewInit {
       //stars
       scene3.fromTo("#stars", { opacity: 0 }, { opacity: 0.5, y: -500 }, 0);
 
-      // Scroll Back text
-      scene3.fromTo("#arrow2", { opacity: 0 }, { opacity: 0.7, y: -710 }, 0.25);
-      scene3.fromTo("#text2", { opacity: 0 }, { opacity: 0.7, y: -710 }, 0.3);
-      scene3.to("footer", { opacity: 1 }, 0.3);
-
       //gradient value change
       scene3.to("#bg2-grad", { attr: { cy: 600 } }, 0);
       scene3.to("#bg2-grad", { attr: { r: 500 } }, 0);
 
-      /*   falling star   */
-      gsap.set("#fstar", { y: -400 });
-      let fstarTL = gsap.timeline();
-      ScrollTrigger.create({
-          animation: fstarTL,
-          trigger: ".scrollElement",
-          start: "4200 top",
-          end: "6000 bottom",
-          scrub: 2,
-          onEnter: function () {
-              gsap.set("#fstar", { opacity: 1 });
-          },
-          onLeave: function () {
-              gsap.set("#fstar", { opacity: 0 });
-          }
-      });
-      fstarTL.to("#fstar", { x: -700, y: -250, ease: "power2.out" }, 0);
 
       gsap.fromTo("#stars path:nth-of-type(1)", { opacity: 0.3 }, { opacity: 1, duration: 0.3, repeat: -1, repeatDelay: 0.8 });
       gsap.fromTo("#stars path:nth-of-type(3)", { opacity: 0.3 }, { opacity: 1, duration: 0.3, repeat: -1, repeatDelay: 1.8 });
