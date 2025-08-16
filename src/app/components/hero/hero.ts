@@ -28,17 +28,6 @@ export class Hero implements AfterViewInit {
       { y: 0 }, 
       { y: 10, duration: 1, repeat: -1, yoyo: true, ease: 'power1.inOut' }
     );
-
-
-    const focusBlurTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.hero-section',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true
-      }
-    });
-
     
 
     
@@ -54,6 +43,17 @@ export class Hero implements AfterViewInit {
 
     // Parallax animation for Logo Text
       gsap.to('#tagline', {
+        y: window.innerHeight*2, // adjust value based on mountain height
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.5
+        },
+        ease: 'power1.out'
+      });
+
+      gsap.to('.scroll-down', {
         y: window.innerHeight*2, // adjust value based on mountain height
         scrollTrigger: {
           trigger: '.hero-section',
