@@ -30,22 +30,49 @@ export class HomePage implements AfterViewInit {
     
     gsap.set("#h2-1", { opacity: 0 });
     gsap.set("#bg_grad", { attr: { cy: "-50" } });
+
+    const resetHero = () => {
+      gsap.set("#bg_grad", { attr: { cy: "-50" } });
+      gsap.set("#info", { y: 0 });
+    };
+
+    // Hint the browser and ScrollTrigger for mobile stability
+    if ((ScrollTrigger as any).normalizeScroll) {
+      (ScrollTrigger as any).normalizeScroll(true);
+    }
+    ScrollTrigger.config({
+      ignoreMobileResize: true,
+      autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,orientationchange"
+    });
+
+    // Smooth out fast scroll bounce to the very top on mobile
+    ScrollTrigger.addEventListener("scrollEnd", () => {
+      if (window.scrollY <= 2) {
+        [scene1, sun, clouds, scene2, sceneTransition, scene3].forEach((tl: any) => tl && tl.progress(0));
+        resetHero();
+      }
+    });
+
     ScrollTrigger.create({
       trigger: ".scrollElement",
       start: "top top",
-      onEnter: () => gsap.set("#bg_grad", { attr: { cy: "-50" } }),
-      onEnterBack: () => gsap.set("#bg_grad", { attr: { cy: "-50" } })
+      onEnter: () => resetHero(),
+      onEnterBack: () => resetHero(),
+      invalidateOnRefresh: true
     });
     const svgEl = document.querySelector<SVGSVGElement>('svg');
       height = svgEl ? svgEl.clientHeight : 0;
 
+      gsap.set(["[id^='h1-']", "[id^='h2-']", "[id^='h3-']", "#info", "#cloudsBig-L", "#cloudsBig-R", "#cloud1", "#cloud2", "#cloud3", "#cloud4"], { css: { willChange: "transform" } });
 
       ScrollTrigger.create({
       animation: scene1,
       trigger: ".scrollElement",
       start: "top top",
       end: "45% 100%",
-      scrub: 3
+      scrub: 3,
+      invalidateOnRefresh: true,
+      
       });
     // hills animation
       scene1.to("#h1-1", { y: 3 * speed, x: 1 * speed, scale: 0.9, ease: "power1.in" }, 0);
@@ -95,7 +122,9 @@ export class HomePage implements AfterViewInit {
           trigger: ".scrollElement",
           start: "top top",
           end: "70% 100%",
-          scrub: 1
+          scrub: 1,
+          invalidateOnRefresh: true,
+          
       });
 
       clouds.to("#cloud1", { x: 500 }, 0);
@@ -110,7 +139,9 @@ export class HomePage implements AfterViewInit {
           trigger: ".scrollElement",
           start: "1% top",
           end: "2150 100%",
-          scrub: 2
+          scrub: 2,
+          invalidateOnRefresh: true,
+          
       });
 
       // sun motion
@@ -129,7 +160,9 @@ export class HomePage implements AfterViewInit {
           trigger: ".scrollElement",
           start: "15% top",
           end: "40% 100%",
-          scrub: 3
+          scrub: 3,
+          invalidateOnRefresh: true
+          
       });
 
       scene2.fromTo("#h2-1", { y: 500, opacity: 0 }, { y: 0, opacity: 1 }, 0);
@@ -154,6 +187,8 @@ export class HomePage implements AfterViewInit {
                   start: "40% top",
                   end: "70% 100%",
                   scrub: 3,
+                  invalidateOnRefresh: true,
+                  
                   onEnter: function () {
                       gsap.utils.toArray("#bats path").forEach((item :any, i) => {
                           gsap.to(item, {
@@ -181,7 +216,9 @@ export class HomePage implements AfterViewInit {
           trigger: ".scrollElement",
           start: "2000 top",
           end: "5000 100%",
-          scrub: 2
+          scrub: 2,
+          invalidateOnRefresh: true,
+          
       });
 
       sun2.to("#sun", { attr: { offset: "1.4" } }, 0);
@@ -199,7 +236,9 @@ export class HomePage implements AfterViewInit {
           trigger: ".scrollElement",
           start: "60% top",
           end: "bottom 100%",
-          scrub: 3
+          scrub: 3,
+          invalidateOnRefresh: true,
+          
       });
 
       sceneTransition.to("#h2-1", { y: -height - 100, scale: 1.5, transformOrigin: "50% 50%" }, 0);
@@ -213,7 +252,9 @@ export class HomePage implements AfterViewInit {
           trigger: ".scrollElement",
           start: "70% 50%",
           end: "bottom 100%",
-          scrub: 3
+          scrub: 3,
+          invalidateOnRefresh: true,
+          
       });
 
       //Hills motion
