@@ -1,0 +1,54 @@
+
+svg {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+}
+
+.scrollElement {
+    position: absolute;
+    height: 6000px;
+    width: 100%;
+    top: 0;
+    z-index: 4;
+}
+
+/* MARK: ---0-490 Mobile */
+@media (max-width: 490px) {
+
+    #text,
+    #arrow {
+        transform-origin: 50% 50%;
+        transform: translateY(-120px) scale(0.8);
+    }
+
+    #info2 {
+        transform-origin: 50% 50%;
+        transform: translateY(-120px) scale(0.8);
+    }
+}
+
+
+#info {
+  fill: none;
+  stroke: var(--primary-text);
+  stroke-width: 1.5px;
+  z-index: inherit;
+
+  @media (min-width: 300px) { /* sm */
+    font-size: 1.2rem;
+  }
+  @media (min-width: 768px) { /* md */
+    font-size: 1.6rem;
+  }
+  @media (min-width: 992px) { /* lg */
+    font-size: 2rem;
+  }
+  @media (min-width: 1200px) { /* xl */
+    font-size: 4rem;
+  }
+}

@@ -8,7 +8,7 @@ import { ThemeService } from './services/theme.service';
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    Loader,
+   // Loader,
     SharedModule
 
   ],
