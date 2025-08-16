@@ -95,6 +95,9 @@
   --mountain-trees-10-50: #cfe0c9; /* pine green tint */
   --mountain-trees-10-100: #5b7a57; /* shadowy pine */
 
+  --mountain-11-50 : var(--mountain-trees-10-50);
+  --mountain-11-100: var(--mountain-trees-8-300); /* light pastel */
+
   /* ============================
      FOREGROUND TREES – lush realistic greens
      ============================ */
@@ -107,5 +110,5 @@
 
 
   --bird-50 : #000000;      
-      
+   --bats-50: #112129;
     }

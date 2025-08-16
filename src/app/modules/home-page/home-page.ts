@@ -30,6 +30,12 @@ export class HomePage implements AfterViewInit {
     
     gsap.set("#h2-1", { opacity: 0 });
     gsap.set("#bg_grad", { attr: { cy: "-50" } });
+    ScrollTrigger.create({
+      trigger: ".scrollElement",
+      start: "top top",
+      onEnter: () => gsap.set("#bg_grad", { attr: { cy: "-50" } }),
+      onEnterBack: () => gsap.set("#bg_grad", { attr: { cy: "-50" } })
+    });
     const svgEl = document.querySelector<SVGSVGElement>('svg');
       height = svgEl ? svgEl.clientHeight : 0;
 
@@ -105,20 +111,16 @@ export class HomePage implements AfterViewInit {
           start: "1% top",
           end: "2150 100%",
           scrub: 2
-          //markers: true,
-          //preventOverlaps: true, //if true, it will affect all preceding ScrollTriggers (you can use for example 'scrollTrigger1')
-          //fastScrollEnd: true,   //(default 2500px/s)
       });
 
-      //sun motion
-      sun.fromTo("#bg_grad", { attr: { cy: "-50" } }, { attr: { cy: "330" } }, 0);
-      //bg change
-      //sun.to("#sun", { attr: { offset: "0.15" } }, 0);
+      // sun motion
+      sun.fromTo("#bg_grad", { attr: { cy: "-50" } }, { attr: { cy: "330" } }, 0.1);
+      // bg change
       sun.to("#bg_grad stop:nth-child(2)", { attr: { offset: "0.15" } }, 0);
       sun.to("#bg_grad stop:nth-child(3)", { attr: { offset: "0.18" } }, 0);
       sun.to("#bg_grad stop:nth-child(4)", { attr: { offset: "0.25" } }, 0);
       sun.to("#bg_grad stop:nth-child(5)", { attr: { offset: "0.46" } }, 0);
-      sun.to("#bg_grad stop:nth-child(6)", { attr: { "stop-color": "#FF9171" } }, 0);
+
 
       /*   SCENE 2  */
       let scene2 = gsap.timeline();
@@ -201,7 +203,7 @@ export class HomePage implements AfterViewInit {
       });
 
       sceneTransition.to("#h2-1", { y: -height - 100, scale: 1.5, transformOrigin: "50% 50%" }, 0);
-      sceneTransition.to("#bg_grad", { attr: { cy: "-80" } }, 0.0);
+      sceneTransition.fromTo("#bg_grad", { attr: { cy: "330" } }, { attr: { cy: "-80" } }, 0.0);
       sceneTransition.to("#bg2", { y: 0 }, 0);
 
       /* Scene 3 */
