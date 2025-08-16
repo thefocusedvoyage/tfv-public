@@ -39,20 +39,9 @@ export class Hero implements AfterViewInit {
       }
     });
 
-    // Foreground blur: tagline and logo
-    focusBlurTimeline.to('.logo-text', {
-      filter: 'blur(1px)',
-      scale: 1.1,
-      opacity: 0.25,
-      ease: 'power2.out'
-    }, 0);
+    
 
-    focusBlurTimeline.to('.tag-word', {
-      filter: 'blur(1px)',
-      opacity: 0.15,
-      ease: 'power2.out',
-      stagger: 0.04
-    }, 0);
+    
 
     
 
