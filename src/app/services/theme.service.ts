@@ -29,5 +29,16 @@
           this._theme.next(initialTheme);
           document.body.setAttribute('data-theme', initialTheme);
         }
+        // Listen to system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+          const newTheme = e.matches ? 'dark' : 'light';
+          this._theme.next(newTheme);
+          document.body.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+        });
+      }
+
+      getTheme() {
+        return this._theme.getValue();
       }
     }

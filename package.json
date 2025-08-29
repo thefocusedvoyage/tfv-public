@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "source-map-explorer": "source-map-explorer dist/tfv-public/**/*.js",
-    "host": "ng serve --host 192.168.1.37 --proxy-config proxy.conf.json --port 1305"
+    "host": "ng serve --host 192.168.1.36 --proxy-config proxy.conf.json --port 1305"
   },
   "prettier": {
     "overrides": [

@@ -4,6 +4,9 @@ import { Gallery } from "../../components/gallery/gallery";
 import { Contact } from "../../components/contact/contact";
 import { Component, AfterViewInit } from '@angular/core';
 import {gsap, ScrollTrigger} from '../../../vendor/gsap/gsap';
+import { ThemeService } from '../../services/theme.service';
+import { CommonModule } from "@angular/common";
+
 let speed = 100;
 let height: number =  0;
 
@@ -12,14 +15,19 @@ let scene1 = gsap.timeline();
 @Component({
   selector: 'app-home-page',
   imports: [
-    Hero
+    Hero,
+    CommonModule
 ],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss'
 })
 export class HomePage implements AfterViewInit {
+
+  currentTheme:any;
   
-  constructor() { } 
+  constructor(private themeService: ThemeService) {
+    this.currentTheme = this.themeService.getTheme();
+   } 
   ngAfterViewInit(): void {
     this.logoTextAnimation();
     this.backgroundAnimation();
