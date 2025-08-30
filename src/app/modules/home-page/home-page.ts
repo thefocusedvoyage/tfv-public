@@ -2,7 +2,7 @@ import { Hero } from "../../components/hero/hero";
 import { About } from '../../components/about/about';
 import { Gallery } from "../../components/gallery/gallery";
 import { Contact } from "../../components/contact/contact";
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import {gsap, ScrollTrigger} from '../../../vendor/gsap/gsap';
 import { ThemeService } from '../../services/theme.service';
 import { CommonModule } from "@angular/common";
@@ -16,12 +16,15 @@ let scene1 = gsap.timeline();
   selector: 'app-home-page',
   imports: [
     Hero,
-    CommonModule
+    CommonModule,
+    About,
+    Gallery,
+    Contact
 ],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss'
 })
-export class HomePage implements AfterViewInit {
+export class HomePage implements AfterViewInit, OnDestroy {
 
   currentTheme:any;
   
@@ -33,6 +36,15 @@ export class HomePage implements AfterViewInit {
     this.backgroundAnimation();
      
   }   
+
+  ngOnDestroy(): void {
+    // Clean up all ScrollTriggers when leaving the page to avoid duplicates
+    try { ScrollTrigger.killAll(); } catch {}
+    // Kill primary timeline used in scene 1 if it exists
+    try { scene1.kill(); } catch {}
+    // Remove unload handler
+    try { (window as any).onbeforeunload = null; } catch {}
+  }
 
   backgroundAnimation() {
     
@@ -259,6 +271,8 @@ export class HomePage implements AfterViewInit {
       window.onbeforeunload = function () {
           window.scrollTo(0, 0);
       };
+      // ensure triggers calculate with final layout
+      ScrollTrigger.refresh();
     
     }
   
@@ -275,14 +289,6 @@ export class HomePage implements AfterViewInit {
             { strokeDashoffset: 0, duration: duration, ease: 'power2.out' }
           );
         }
-      gsap.fromTo('#info', 
-        { strokeDasharray: 1000, strokeDashoffset: 1000 },
-        {
-          strokeDashoffset: 0,
-          duration: isMobile ? 10 : 20, // shorter duration on web, longer on mobile to maintain visual speed
-          ease: 'power2.out'
-        }
-      );
   }
 
 }
