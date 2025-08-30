@@ -6,6 +6,7 @@ import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import {gsap, ScrollTrigger} from '../../../vendor/gsap/gsap';
 import { ThemeService } from '../../services/theme.service';
 import { CommonModule } from "@angular/common";
+import { Observable } from "rxjs";
 
 let speed = 100;
 let height: number =  0;
@@ -26,11 +27,12 @@ let scene1 = gsap.timeline();
 })
 export class HomePage implements AfterViewInit, OnDestroy {
 
-  currentTheme:any;
+  currentTheme : Observable<any>;
   
   constructor(private themeService: ThemeService) {
-    this.currentTheme = this.themeService.getTheme();
+    this.currentTheme = this.themeService.theme$;
    } 
+   
   ngAfterViewInit(): void {
     this.logoTextAnimation();
     this.backgroundAnimation();

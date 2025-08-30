@@ -1,8 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { gsap , ScrollTrigger} from '../../../vendor/gsap/gsap';
-gsap.registerPlugin(ScrollTrigger);
-let height: number;
-let speed = 100;
+import { Component, AfterViewInit, ElementRef, inject } from '@angular/core';
+import { gsap, ScrollTrigger } from '../../../vendor/gsap/gsap';
 
 @Component({
   selector: 'app-contact',
@@ -10,6 +7,7 @@ let speed = 100;
   styleUrls: ['./contact.scss']
 })
 export class Contact implements AfterViewInit {
+  
 
   ngAfterViewInit(): void {
     
