@@ -34,6 +34,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.logoTextAnimation();
     this.backgroundAnimation();
+    this.setupScrollToTop();
      
   }   
 
@@ -44,6 +45,32 @@ export class HomePage implements AfterViewInit, OnDestroy {
     try { scene1.kill(); } catch {}
     // Remove unload handler
     try { (window as any).onbeforeunload = null; } catch {}
+  }
+
+  private setupScrollToTop() {
+    const btn = document.querySelector<HTMLButtonElement>('.scroll-to-top');
+    if (!btn) return;
+
+    // Click handler: scroll to Hero
+    btn.addEventListener('click', () => {
+      const hero = document.querySelector('.hero-section');
+      if (hero) {
+        (hero as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    // Show button near bottom of page
+    ScrollTrigger.create({
+      trigger: '.scrollElement',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        const nearBottom = self.progress >= 0.9; // last 10% of scroll
+        btn.classList.toggle('visible', nearBottom);
+      }
+    });
   }
 
   backgroundAnimation() {
