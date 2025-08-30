@@ -14,54 +14,108 @@ export class About implements AfterViewInit {
   ngAfterViewInit(): void {
     const section = this.el.nativeElement.querySelector('#about');
 
-    // Scroll-scrubbed, pinned timeline to align speed with background
-    const aboutTl = gsap.timeline({
-      scrollTrigger: {
-        id: 'about-tl',
-        trigger: section,
-        start: 'top 65%',
-        end: '+=120%', // increase distance for a slower, parallax-like feel
-        pin: true,
-        pinSpacing: true,
-        scrub: 3, // match background timelines' scrub for consistent speed
-        anticipatePin: 1,
-        invalidateOnRefresh: true
-        // markers: true,
+    // Pin the About section at the center of the viewport for a moment
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'center center',
+      end: '+=100%', // keep pinned for one viewport-height worth of scroll
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1
+    });
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to(section, {
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.out'
+        });
+
+        gsap.from(section.querySelector('h2'), {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          ease: 'power2.out'
+        });
+
+        gsap.from(section.querySelector('.about-text'), {
+          y: 60,
+          opacity: 0,
+          duration: 1.2,
+          delay: 0.3,
+          ease: 'power2.out'
+        });
+
+        gsap.from(section.querySelector('.scroll-down-about'), {
+          y: 60,
+          opacity: 0,
+          duration: 1.2,
+          delay: 0.3,
+          ease: 'power2.out'
+        });
+
+
+        // Photography-inspired founder image reveal with scale-up and flash-style brightness pulse
+        const founderImage = section.querySelector('.founder-img');
+        gsap.fromTo(founderImage,
+          {
+            opacity: 0,
+            y: 60,
+            scale: 0.6,
+            filter: 'brightness(0.5)'
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: 'brightness(1)',
+            duration: 1.5,
+            ease: 'power4.out'
+          }
+        );
       }
     });
 
-    // Ensure section becomes visible when the timeline begins
-    aboutTl.set(section, { opacity: 1 }, 0);
+    const exitTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
 
-    // Headline
-    aboutTl.from(section.querySelector('h2'), {
-      y: 80,
+    exitTimeline.to(section.querySelector('h2'), {
+      y: 40,
       opacity: 0,
-      ease: 'none'
+      ease: 'power2.out'
     }, 0);
 
-    // Body copy
-    aboutTl.from(section.querySelector('.about-text'), {
-      y: 100,
+    exitTimeline.to(section.querySelector('.about-text'), {
+      y: 30,
       opacity: 0,
-      ease: 'none'
-    }, 0.1);
-
-    // Scroll cue
-    aboutTl.from(section.querySelector('.scroll-down-about'), {
-      y: 100,
-      opacity: 0,
-      ease: 'none'
-    }, 0.15);
-
-    // Founder image
-    aboutTl.from(section.querySelector('.founder-img'), {
-      y: 120,
-      scale: 0.92,
-      opacity: 0,
-      filter: 'brightness(0.85)',
-      ease: 'none'
+      ease: 'power2.out'
     }, 0);
+
+    exitTimeline.to(section.querySelector('.scroll-down-about'), {
+      y: 30,
+      opacity: 0,
+      ease: 'power2.out'
+    }, 0);
+
+    exitTimeline.to(section.querySelector('.founder-img'), {
+      y: -30,
+      scale: 0.9,
+      opacity: 0,
+      ease: 'power2.out'
+    }, 0);
+
+    
+    
   }
 
   scrollToGallery(): void {
