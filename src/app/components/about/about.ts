@@ -14,105 +14,54 @@ export class About implements AfterViewInit {
   ngAfterViewInit(): void {
     const section = this.el.nativeElement.querySelector('#about');
 
-    ScrollTrigger.create({
-      trigger: section,
-      start: 'top 85%',
-      once: true,
-      onEnter: () => {
-        gsap.to(section, {
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.out'
-        });
-
-        gsap.from(section.querySelector('h2'), {
-          y: 40,
-          opacity: 0,
-          duration: 1,
-          ease: 'power2.out'
-        });
-
-        gsap.from(section.querySelector('.about-text'), {
-          y: 60,
-          opacity: 0,
-          duration: 1.2,
-          delay: 0.3,
-          ease: 'power2.out'
-        });
-
-        const svgPaths = section.querySelectorAll('.about-svg-bg path');
-        svgPaths.forEach((path: SVGPathElement, i: number) => {
-          const length = path.getTotalLength();
-          gsap.fromTo(path,
-            {
-              strokeDasharray: length,
-              strokeDashoffset: length
-            },
-            {
-              strokeDashoffset: 0,
-              duration: 3.5,
-              ease: 'power2.out',
-              delay: i * 0.2
-            }
-          );
-        });
-
-        // Photography-inspired founder image reveal with scale-up and flash-style brightness pulse
-        const founderImage = section.querySelector('.founder-img');
-        gsap.fromTo(founderImage,
-          {
-            opacity: 0,
-            y: 60,
-            scale: 0.6,
-            filter: 'brightness(0.5)'
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            filter: 'brightness(1)',
-            duration: 1.5,
-            ease: 'power4.out'
-          }
-        );
-      }
-    });
-
-    const exitTimeline = gsap.timeline({
+    // Scroll-scrubbed, pinned timeline to align speed with background
+    const aboutTl = gsap.timeline({
       scrollTrigger: {
+        id: 'about-tl',
         trigger: section,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true
+        start: 'top 65%',
+        end: '+=120%', // increase distance for a slower, parallax-like feel
+        pin: true,
+        pinSpacing: true,
+        scrub: 3, // match background timelines' scrub for consistent speed
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+        // markers: true,
       }
     });
 
-    exitTimeline.to(section.querySelector('h2'), {
-      y: 40,
+    // Ensure section becomes visible when the timeline begins
+    aboutTl.set(section, { opacity: 1 }, 0);
+
+    // Headline
+    aboutTl.from(section.querySelector('h2'), {
+      y: 80,
       opacity: 0,
-      ease: 'power2.out'
+      ease: 'none'
     }, 0);
 
-    exitTimeline.to(section.querySelector('.about-text'), {
-      y: 30,
+    // Body copy
+    aboutTl.from(section.querySelector('.about-text'), {
+      y: 100,
       opacity: 0,
-      ease: 'power2.out'
-    }, 0);
+      ease: 'none'
+    }, 0.1);
 
-    exitTimeline.to(section.querySelector('.founder-img'), {
-      y: -30,
-      scale: 0.9,
+    // Scroll cue
+    aboutTl.from(section.querySelector('.scroll-down-about'), {
+      y: 100,
       opacity: 0,
-      ease: 'power2.out'
-    }, 0);
+      ease: 'none'
+    }, 0.15);
 
-    exitTimeline.to(section.querySelectorAll('.about-svg-bg path'), {
-      strokeDashoffset: (i, el) => el.getTotalLength(),
+    // Founder image
+    aboutTl.from(section.querySelector('.founder-img'), {
+      y: 120,
+      scale: 0.92,
       opacity: 0,
-      ease: 'power2.out',
-      stagger: 0.05
+      filter: 'brightness(0.85)',
+      ease: 'none'
     }, 0);
-    
   }
 
   scrollToGallery(): void {
