@@ -1,5 +1,3 @@
 #about {
   opacity: 0; // ensures GSAP fade-in works
-  position: relative; // keep stacking context when pinned
-  z-index: 5; // ensure above the fixed parallax SVG (z-index: 3)
 }
