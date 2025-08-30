@@ -249,7 +249,8 @@ export class HomePage implements AfterViewInit, OnDestroy {
           scrub: 3
       });
 
-      sceneTransition.to("#h2-1", { y: -height - 100, scale: 1.5, transformOrigin: "50% 50%" }, 0);
+      // Move #h2-1 downward (positive Y) instead of upward
+      sceneTransition.to("#h2-1", { y: height + 100, scale: 1.5, transformOrigin: "50% 50%" }, 0);
       sceneTransition.fromTo("#bg_grad", { attr: { cy: "330" } }, { attr: { cy: "-80" } }, 0.0);
       sceneTransition.to("#bg2", { y: 0 }, 0);
 

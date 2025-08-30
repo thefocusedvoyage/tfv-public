@@ -13,4 +13,13 @@ svg {
     left: 0;
 }
 
+/* Mobile: keep contact stuck to bottom of viewport */
+@media (max-width: 768px) {
+  #contact {
+    position: sticky;
+    bottom: 0;
+    z-index: 5; /* above fixed SVG background (z-index: 3) */
+  }
+}
+
 /* scroll-to-top styles moved to HomePage */
