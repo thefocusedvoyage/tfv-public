@@ -15,19 +15,19 @@ export class Gallery implements AfterViewInit {
   categories = [{
     title: 'Wildlife',
     description: 'Explore the beauty of wildlife through stunning photography.',
-    image: 'images/wildlife.jpg',
+    image: 'images/01.png',
     dataTarget: 1,
     lastCategory: false
   }, {
     title: 'Travel',
     description: 'Capture the essence of nature with breathtaking landscapes.',
-    image: 'images/landscape.jpg',
+    image: 'images/01.png',
     dataTarget: 2,
     lastCategory: false
   }, {
     title: 'Aerial',
     description: 'Discover the charm of urban life through captivating images.',
-    image: 'images/urban.jpg',
+    image: 'images/01.png',
     dataTarget: 'contact',
     lastCategory: true
   }]
@@ -35,48 +35,68 @@ export class Gallery implements AfterViewInit {
   activeCategory = 'Wildlife';
   ngAfterViewInit(): void {
     gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
-    const gallerySection = this.el.nativeElement.querySelector('#gallery');
-    const track = this.el.nativeElement.querySelector('.gallery-track');
-    const cards = this.el.nativeElement.querySelectorAll('.gallery-card');
+    const gallerySection = this.el.nativeElement.querySelector('#gallery') as HTMLElement;
+    const track = this.el.nativeElement.querySelector('.gallery-track') as HTMLElement;
+    const cards = Array.from(this.el.nativeElement.querySelectorAll('.gallery-card')) as HTMLElement[];
     const totalCards = cards.length;
 
     // Set track width based on card count
-    (track as HTMLElement).style.width = `${100 * totalCards}vw`;
+    track.style.width = `${100 * totalCards}vw`;
 
-    // Calculate scroll distance as total width minus viewport width
-    const scrollDistance = (track.scrollWidth - gallerySection.clientWidth);
-    
-    // Ensure proper pinning by setting explicit end distance
-    const pinEndDistance = scrollDistance + gallerySection.clientWidth;
-    
-    // Calculate snap points for each card to be centered
-    const snapPoints = [];
-    for (let i = 0; i < totalCards; i++) {
-      snapPoints.push(i / (totalCards - 1));
-    }
+    const panelWidth = () => gallerySection.clientWidth;
 
-    gsap.to(track, {
-      x: () => `-${scrollDistance}px`,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: gallerySection,
-        pin: true,
-        scrub: 1.5, // slowed down scrub for smoother feel
-        snap: {
-          snapTo: snapPoints, // snap to calculated points
-          duration: { min: 0.3, max: 0.5 }, // snap duration
-          delay: 0, // no delay
-          ease: "power2.out" // snap easing
-        },
-        start: 'top top',
-        end: () => `+=${pinEndDistance}`, // ensure complete horizontal scroll before unpinning
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        pinSpacing: true,
-        onUpdate: (self) => {
-          this.updateCategoryBackground(self.progress);
-        }
+    // Build a master timeline that gates each subsection:
+    // For each card: 1) vertical parallax of 4 photos, then 2) horizontal slide to next card (except last).
+    const stages = totalCards * 2 - 1; // vertical + horizontal per card except last horizontal
+    const tl = gsap.timeline({ defaults: { ease: 'none' } });
+
+    // Ensure all gallery photos have baseline positions
+    cards.forEach((panel) => {
+      const photos = Array.from(panel.querySelectorAll<HTMLElement>('.gallery-photo'));
+      photos.forEach((photo, idx) => {
+        gsap.set(photo, { yPercent: 40 + idx * 15, opacity: 0 });
+      });
+    });
+
+    cards.forEach((panel, i) => {
+      const photos = Array.from(panel.querySelectorAll<HTMLElement>('.gallery-photo'));
+      // Vertical stage: animate 4 photos upward with slight offsets and fade in
+      tl.to(photos, {
+        yPercent: (index: number) => -40 + index * -10,
+        opacity: (index: number) => 1 - index * 0.05,
+        duration: 1
+      });
+
+      // Exit animation for current grid before transitioning to next subsection
+      if (i < totalCards - 1) {
+        tl.to(photos, {
+          opacity: 0,
+          yPercent: "+=10",
+          duration: 0.4
+        }, ">-0.1"); // slight overlap for smoothness
       }
+
+      // Horizontal stage: move to next panel (skip for last card)
+      if (i < totalCards - 1) {
+        tl.to(track, {
+          x: () => `-${panelWidth() * (i + 1)}px`,
+          duration: 1
+        });
+      }
+    });
+
+    // Pin and scrub the master timeline; snap to each stage boundary
+    ScrollTrigger.create({
+      animation: tl,
+      trigger: gallerySection,
+      pin: true,
+      scrub: 1.2,
+      snap: gsap.utils.snap(1 / (stages - 1)),
+      start: 'top top',
+      end: () => "+=" + (stages * panelWidth() * 0.6), // proportional to viewport width
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => this.updateCategoryBackground(self.progress)
     });
 
 
