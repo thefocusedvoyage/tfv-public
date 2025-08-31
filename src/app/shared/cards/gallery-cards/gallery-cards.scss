@@ -39,10 +39,8 @@
 
 .overlay-center {
   position: absolute;
-  /* Place the arrow just below the masked text area (which is centered in the SVG) */
-  top: calc(50% + clamp(24px, 6.5vw, 96px));
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,7 +97,7 @@
 .mask-svg-text {
   font-family: inherit;
   font-weight: 900; /* thicker */
-  font-size: clamp(48px, 14vw, 220px); /* responsive across phones/tablets/desktop */
+  font-size: clamp(4.8rem, 30rem, 40rem); /* responsive across phones/tablets/desktop */
   letter-spacing: .02em;
   /* Further thicken the mask cutout by stroking the SVG text */
   fill: #fff;
@@ -140,4 +138,3 @@
 @media (prefers-reduced-motion: reduce) {
   .text-mask-window .mask-slide { transition: none; }
 }
-
