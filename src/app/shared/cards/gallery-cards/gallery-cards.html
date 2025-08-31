@@ -1,10 +1,16 @@
 <div class="gallery-card text-white flex-shrink-0">
   <div class="gallery-card-inner">
-    <div class="photo-grid">
-      <div class="gallery-photo" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
-      <div class="gallery-photo" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
-      <div class="gallery-photo" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
-      <div class="gallery-photo" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
+    <div class="coverflow" data-coverflow-root>
+      @if (card?.images?.length) {
+        @for (img of card.images; track $index) {
+          <div class="cover-slide" [attr.data-i]="$index" [style.backgroundImage]="'url(' + img + ')'" aria-hidden="true"></div>
+        }
+      } @else {
+        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
+        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
+        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
+        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
+      }
     </div>
 
     <div class="overlay-center">

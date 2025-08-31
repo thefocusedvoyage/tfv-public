@@ -55,3 +55,24 @@
 .overlay-center .section-title { text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
 
 .gallery-scroll-arrow { cursor: pointer; }
+
+/* Coverflow layout */
+.coverflow {
+  position: relative;
+  height: 100vh;
+  perspective: 1200px;
+  overflow: hidden;
+}
+
+.coverflow .cover-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(70vw, 900px);
+  height: min(45vw, 580px);
+  translate: -50% -50%;
+  background: center / cover no-repeat;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  will-change: transform, opacity;
+}
