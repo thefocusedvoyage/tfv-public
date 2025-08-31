@@ -52,8 +52,21 @@
 
 .overlay-center .gallery-scroll-arrow { pointer-events: auto; }
 .overlay-center .section-title { text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
+.overlay-center .gallery-explore-btn { pointer-events: auto; }
 
 .gallery-scroll-arrow { cursor: pointer; }
+
+/* Themed explore button (uses CSS variables to react to theme) */
+.gallery-explore-btn {
+  background: var(--accent-400);
+  color: var(--primary-background);
+  border: 1px solid var(--border-200);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+.gallery-explore-btn:hover { background: var(--accent-500); transform: translateY(-1px); }
+.gallery-explore-btn:active { transform: translateY(0); }
 
 /* Coverflow layout */
 .coverflow {

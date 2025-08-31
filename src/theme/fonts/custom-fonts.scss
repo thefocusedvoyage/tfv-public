@@ -83,6 +83,12 @@ $font-family-poppins: 'Poppins', sans-serif;
     &.bold {
         font-weight: 700;
     }
+    &.bolder {
+        font-weight: 800;
+    }
+    &.boldest {
+        font-weight: 900;
+    }
 }
 
 

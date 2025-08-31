@@ -1,7 +1,7 @@
 <div class="gallery-card text-white flex-shrink-0">
   <div class="gallery-card-inner">
     <div class="text-mask-window" data-mask-root>
-      <svg class="text-mask-svg" viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <svg class="text-mask-svg poppins-font boldest" viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
           <mask [attr.id]="'tfv-text-mask-' + (card?.dataTarget ? card.dataTarget : card?.title)" maskUnits="userSpaceOnUse">
             <rect x="0" y="0" width="1200" height="1200" fill="black"/>
@@ -15,7 +15,7 @@
                   textLength="1200"
                   font-size="1200"
                   fill="white"
-                  class="mask-svg-text">{{card?.title}}</text>
+                  class="mask-svg-text poppins-font boldest">{{card?.title}}</text>
           </mask>
         </defs>
         <g [attr.mask]="card?.dataTarget ? 'url(#tfv-text-mask-' + card.dataTarget + ')' : 'url(#tfv-text-mask-' + card?.title + ')'" data-mask-images>
@@ -34,12 +34,12 @@
     </div>
 
     <div class="overlay-center">
+      <!-- Explore more button -->
+      <button type="button" class="btn btn-light  mt-1 poppins-font thin"  aria-label="Explore more">Explore more</button>
       <div class="gallery-scroll-arrow d-flex justify-content-center custom-arrow"
            [attr.data-target]="card?.dataTarget" role="button" tabindex="0" aria-label="Next">
         @if (!card?.lastCategory) {
-          <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" viewBox="0 0 16 16" class="custom-arrow-icon">
-            <path fill-rule="evenodd" d="M6.646 12.354a.5.5 0 0 1 0-.708L10.293 8 6.646 4.354a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708 0z"/>
-          </svg>
+          <i class="bi bi-chevron-double-right scroll-icon"></i>
         } @else {
           <i class="bi bi-chevron-double-down scroll-icon"></i>
         }
