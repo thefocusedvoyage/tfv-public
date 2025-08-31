@@ -15,19 +15,19 @@ export class Gallery implements AfterViewInit {
   categories = [{
     title: 'WILDLIFE',
     description: 'Explore the beauty of wildlife through stunning photography.',
-    image: 'images/01.png',
+    images: ['images/01.png','images/02.png','images/03.png'],
     dataTarget: 1,
     lastCategory: false
   }, {
     title: 'TRAVEL',
     description: 'Capture the essence of nature with breathtaking landscapes.',
-    image: 'images/01.png',
+    images: ['images/03.png','images/04.png','images/05.png'],
     dataTarget: 2,
     lastCategory: false
   }, {
     title: 'AERIAL',
     description: 'Discover the charm of urban life through captivating images.',
-    image: 'images/01.png',
+    images: ['images/06.png','images/07.png','images/08.png'],
     dataTarget: 'contact',
     lastCategory: true
   }]
@@ -47,41 +47,81 @@ export class Gallery implements AfterViewInit {
 
     // Build a master timeline that gates each subsection:
     // For each card: 1) vertical parallax of 4 photos, then 2) horizontal slide to next card (except last).
+    // Build a stepped master timeline so each category "owns" scroll while its photos play,
+    // then advance horizontally to the next. This blocks background progress during vertical reels.
+    const VERTICAL_SEG = 1;   // scroll units for vertical photo reel
+    const HORIZONTAL_SEG = 0.35; // scroll units for horizontal slide to next
     const stages = totalCards * 2 - 1; // vertical + horizontal per card except last horizontal
     const tl = gsap.timeline({ defaults: { ease: 'none' } });
 
     // Ensure all gallery photos have baseline positions
+    // Baseline states for per-panel mask slides (first visible by default) and overlay arrow
     cards.forEach((panel) => {
-      const photos = Array.from(panel.querySelectorAll<HTMLElement>('.gallery-photo'));
-      photos.forEach((photo, idx) => {
-        gsap.set(photo, { yPercent: 40 + idx * 15, opacity: 0 });
-      });
+      const slides = Array.from(panel.querySelectorAll<SVGImageElement>('.mask-slide'));
+      const arrow = panel.querySelector<HTMLElement>('.gallery-scroll-arrow');
+      if (slides.length) {
+        slides.forEach((el, i) => gsap.set(el, { opacity: i === 0 ? 1 : 0 }));
+      }
+      if (arrow) gsap.set(arrow, { opacity: 1 });
     });
 
-    cards.forEach((panel, i) => {
-      const photos = Array.from(panel.querySelectorAll<HTMLElement>('.gallery-photo'));
-      // Vertical stage: animate 4 photos upward with slight offsets and fade in
-      tl.to(photos, {
-        yPercent: (index: number) => -40 + index * -10,
-        opacity: (index: number) => 1 - index * 0.05,
-        duration: 1
-      });
+    const toggleBG = (on: boolean) => {
+      const s1 = ScrollTrigger.getById('bg-scene1');
+      const s2 = ScrollTrigger.getById('bg-scene2');
+      if (on) {
+       // s1?.enable();
+       // s2?.enable();
+      } else {
+       // s1?.disable();
+       // s2?.disable();
+      }
+    };
 
-      // Exit animation for current grid before transitioning to next subsection
+    cards.forEach((panel, i) => {
+      const slides = Array.from(panel.querySelectorAll<SVGImageElement>('.mask-slide'));
+      // Pause background while vertical reel plays
+      tl.call(() => toggleBG(false));
+
+      if (slides.length > 0) {
+        const per = VERTICAL_SEG / slides.length;
+        // Ensure first is visible
+        tl.set(slides[0], { opacity: 1 });
+        // Crossfade through slides within the vertical segment window
+        for (let s = 1; s < slides.length; s++) {
+          tl.to(slides[s], { opacity: 1, duration: per * 0.8 });
+          tl.to(slides[s - 1], { opacity: 0, duration: per * 0.8 }, '<');
+        }
+        // If only one slide, still consume vertical segment time
+        if (slides.length === 1) {
+          tl.to({}, { duration: VERTICAL_SEG });
+        }
+      } else {
+        // No slides found; still allocate time so horizontal doesn't jump
+        tl.to({}, { duration: VERTICAL_SEG });
+      }
+
+      // Exit animation for current panel before transitioning (fade images + arrow together)
+      const arrow = panel.querySelector<HTMLElement>('.gallery-scroll-arrow');
       if (i < totalCards - 1) {
-        tl.to(photos, {
-          opacity: 0,
-          yPercent: "+=10",
-          duration: 0.4
-        }, ">-0.1"); // slight overlap for smoothness
+        if (slides.length) tl.to(slides, { opacity: 0, duration: 0.3 }, '>-0.1');
+        if (arrow) tl.to(arrow, { opacity: 0, duration: 0.3 }, '<');
+      } else {
+        // Also fade the arrow at the end of the last category's vertical reel
+        if (arrow) tl.to(arrow, { opacity: 0, duration: 0.3 }, '>-0.1');
       }
 
       // Horizontal stage: move to next panel (skip for last card)
       if (i < totalCards - 1) {
+        // Re-enable background Scene 2 before horizontal advance
+        tl.call(() => toggleBG(true));
         tl.to(track, {
           x: () => `-${panelWidth() * (i + 1)}px`,
-          duration: 1
+          duration: HORIZONTAL_SEG
         });
+      }
+      // If this is the last category, re-enable background once vertical completes
+      if (i === totalCards - 1) {
+        tl.call(() => toggleBG(true));
       }
     });
 
@@ -91,9 +131,11 @@ export class Gallery implements AfterViewInit {
       trigger: gallerySection,
       pin: true,
       scrub: 1.2,
+      // Snap at each stage boundary so horizontal doesn't advance until vertical finishes
       snap: gsap.utils.snap(1 / (stages - 1)),
       start: 'top top',
-      end: () => "+=" + (stages * panelWidth() * 0.6), // proportional to viewport width
+      // Allocate enough scroll distance so the last (Aerial) stage is reachable on all screens
+      end: () => "+=" + Math.round(tl.duration() * panelWidth()),
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => this.updateCategoryBackground(self.progress)

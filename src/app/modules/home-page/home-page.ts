@@ -90,6 +90,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
 
       ScrollTrigger.create({
+      id: 'bg-scene1',
       animation: scene1,
       trigger: ".scrollElement",
       start: "top top",
@@ -174,6 +175,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
       /*   SCENE 2  */
       let scene2 = gsap.timeline();
       ScrollTrigger.create({
+          id: 'bg-scene2',
           animation: scene2,
           trigger: ".scrollElement",
           start: "15% top",

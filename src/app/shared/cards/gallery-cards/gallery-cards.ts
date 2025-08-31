@@ -48,45 +48,7 @@ export class GalleryCards implements AfterViewInit, OnDestroy {
     slides.forEach((el, i) => {
       gsap.set(el, { opacity: i === 0 ? 1 : 0, transformOrigin: '50% 50%' });
     });
-
-    const n = slides.length;
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: root,
-        start: 'top top',
-        end: () => `+=${window.innerHeight * (n + 0.2)}`,
-        pin: true,
-        scrub: true
-      }
-    });
-
-    slides.forEach((el, i) => {
-      const label = `maskFrame${i}`;
-      const panX = i % 2 ? 2 : -2; // gentle alternating pan
-      const panY = i % 2 ? -1 : 1;
-      tl.add(label)
-        // Show instantly (no fade-in)
-        .set(el, { opacity: 1 }, label)
-        // Ken Burns style pan/scale (no opacity tween)
-        .to(el, { scale: 1.10, xPercent: panX, yPercent: panY, ease: 'none', duration: 0.8 }, label)
-        // Hide instantly (no fade-out)
-        .set(el, { opacity: 0 }, `>${0.8}`);
-    });
-
-    // Optional: gentle tracking change on the SVG title for a luxe feel
-    const titleST = gsap.to(title, {
-      attr: { 'letter-spacing': '0.06em' },
-      scrollTrigger: {
-        trigger: root,
-        start: 'top center',
-        end: 'bottom center',
-        scrub: true
-      }
-    }).scrollTrigger as ScrollTrigger | undefined;
-
-    if (titleST) this.triggers.push(titleST);
-    const st = tl.scrollTrigger as ScrollTrigger | undefined;
-    if (st) this.triggers.push(st);
+    // Remove per-card pinning/ScrollTriggers to avoid conflicts with the master gallery timeline.
+    // Cards render their first slide statically; the gallery-level timeline controls section flow.
   }
 }
