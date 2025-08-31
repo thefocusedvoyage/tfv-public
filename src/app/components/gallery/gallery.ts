@@ -55,14 +55,16 @@ export class Gallery implements AfterViewInit {
     const tl = gsap.timeline({ defaults: { ease: 'none' } });
 
     // Ensure all gallery photos have baseline positions
-    // Baseline states for per-panel mask slides (first visible by default) and overlay arrow
+    // Baseline states for per-panel mask slides (first visible by default) and overlay arrow/button
     cards.forEach((panel) => {
       const slides = Array.from(panel.querySelectorAll<SVGImageElement>('.mask-slide'));
       const arrow = panel.querySelector<HTMLElement>('.gallery-scroll-arrow');
+      const explore = panel.querySelector<HTMLElement>('.gallery-explore-btn');
       if (slides.length) {
         slides.forEach((el, i) => gsap.set(el, { opacity: i === 0 ? 1 : 0 }));
       }
       if (arrow) gsap.set(arrow, { opacity: 1 });
+      if (explore) gsap.set(explore, { opacity: 1 });
     });
 
     const toggleBG = (on: boolean) => {
@@ -102,12 +104,15 @@ export class Gallery implements AfterViewInit {
 
       // Exit animation for current panel before transitioning (fade images + arrow together)
       const arrow = panel.querySelector<HTMLElement>('.gallery-scroll-arrow');
+      const explore = panel.querySelector<HTMLElement>('.gallery-explore-btn');
       if (i < totalCards - 1) {
         if (slides.length) tl.to(slides, { opacity: 0, duration: 0.3 }, '>-0.1');
         if (arrow) tl.to(arrow, { opacity: 0, duration: 0.3 }, '<');
+        if (explore) tl.to(explore, { opacity: 0, duration: 0.3 }, '<');
       } else {
         // Also fade the arrow at the end of the last category's vertical reel
         if (arrow) tl.to(arrow, { opacity: 0, duration: 0.3 }, '>-0.1');
+        if (explore) tl.to(explore, { opacity: 0, duration: 0.3 }, '<');
       }
 
       // Horizontal stage: move to next panel (skip for last card)
