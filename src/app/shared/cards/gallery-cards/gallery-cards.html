@@ -1,20 +1,39 @@
 <div class="gallery-card text-white flex-shrink-0">
   <div class="gallery-card-inner">
-    <div class="coverflow" data-coverflow-root>
-      @if (card?.images?.length) {
-        @for (img of card.images; track $index) {
-          <div class="cover-slide" [attr.data-i]="$index" [style.backgroundImage]="'url(' + img + ')'" aria-hidden="true"></div>
-        }
-      } @else {
-        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
-        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
-        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
-        <div class="cover-slide" [style.backgroundImage]="'url(' + card?.image + ')'" aria-hidden="true"></div>
-      }
+    <div class="text-mask-window" data-mask-root>
+      <svg class="text-mask-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <mask [attr.id]="'tfv-text-mask-' + (card?.dataTarget ? card.dataTarget : card?.title)" maskUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="1000" height="1000" fill="black"/>
+            <!-- Make text occupy ~80% of the SVG width consistently on all devices -->
+            <text x="50%" y="50%"
+                  dominant-baseline="middle"
+                  alignment-baseline="middle"
+                  dy=".1em"
+                  text-anchor="middle"
+                  lengthAdjust="spacingAndGlyphs"
+                  textLength="1000"
+                  font-size="1000"
+                  fill="white"
+                  class="mask-svg-text">{{card?.title}}</text>
+          </mask>
+        </defs>
+        <g [attr.mask]="card?.dataTarget ? 'url(#tfv-text-mask-' + card.dataTarget + ')' : 'url(#tfv-text-mask-' + card?.title + ')'" data-mask-images>
+          @if (card?.images?.length) {
+            @for (img of card.images; track $index) {
+              <image class="mask-slide" [attr.href]="img" x="0" y="0" width="1000" height="1000" preserveAspectRatio="xMidYMid slice" />
+            }
+          } @else {
+            <image class="mask-slide" [attr.href]="card?.image" x="0" y="0" width="1000" height="1000" preserveAspectRatio="xMidYMid slice" />
+            <image class="mask-slide" [attr.href]="card?.image" x="0" y="0" width="1000" height="1000" preserveAspectRatio="xMidYMid slice" />
+            <image class="mask-slide" [attr.href]="card?.image" x="0" y="0" width="1000" height="1000" preserveAspectRatio="xMidYMid slice" />
+            <image class="mask-slide" [attr.href]="card?.image" x="0" y="0" width="1000" height="1000" preserveAspectRatio="xMidYMid slice" />
+          }
+        </g>
+      </svg>
     </div>
 
     <div class="overlay-center">
-      <h1 class="poppins-font thin text-color section-title m-0">{{card?.title}}</h1>
       <div class="gallery-scroll-arrow d-flex justify-content-center custom-arrow"
            [attr.data-target]="card?.dataTarget" role="button" tabindex="0" aria-label="Next">
         @if (!card?.lastCategory) {

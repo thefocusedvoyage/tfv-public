@@ -9,7 +9,7 @@
 .gallery-card-inner {
   position: relative;
   width: min(860px, 86vw);
-  height: 86vh;
+  height: 100%;
 }
 
 .section-title {
@@ -39,7 +39,8 @@
 
 .overlay-center {
   position: absolute;
-  top: 50%;
+  /* Place the arrow just below the masked text area (which is centered in the SVG) */
+  top: calc(50% + clamp(24px, 6.5vw, 96px));
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -76,3 +77,67 @@
   box-shadow: 0 30px 80px rgba(0,0,0,0.35);
   will-change: transform, opacity;
 }
+
+/* Text-Mask Window (SVG) */
+.text-mask-window {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* The SVG fills the container and hosts the text mask + images */
+.text-mask-svg { 
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Mask text styling (controls the visual weight/scale of the cutout) */
+.mask-svg-text {
+  font-family: inherit;
+  font-weight: 900; /* thicker */
+  font-size: clamp(48px, 14vw, 220px); /* responsive across phones/tablets/desktop */
+  letter-spacing: .02em;
+  /* Further thicken the mask cutout by stroking the SVG text */
+  fill: #fff;
+  stroke: #fff;
+  stroke-width: clamp(2px, 0.8vw, 10px);
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+
+/* Slides are SVG <image> nodes; only opacity/transform are animated */
+.text-mask-window .mask-slide {
+  will-change: opacity, transform;
+  pointer-events: none; /* ensure overlay controls remain clickable */
+}
+
+/* --- SVG Text-Mask: hardening + accessibility --- */
+.text-mask-window { 
+  contain: paint; /* prevent scroll-jank by isolating paints */
+}
+
+/* Make the SVG a true background layer under overlays */
+.text-mask-svg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none; /* let arrows/links on overlay be clickable */
+}
+
+/* Ensure GSAP SVG transforms (xPercent/yPercent/scale) are relative to image box */
+.text-mask-window .mask-slide { 
+  transform-box: fill-box;
+}
+
+/* Keep overlay controls above everything */
+.overlay-center { z-index: 3; }
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .text-mask-window .mask-slide { transition: none; }
+}
+

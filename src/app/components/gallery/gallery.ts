@@ -13,19 +13,19 @@ import { GalleryCards } from "../../shared/cards/gallery-cards/gallery-cards";
 export class Gallery implements AfterViewInit {
   private el = inject(ElementRef);
   categories = [{
-    title: 'Wildlife',
+    title: 'WILDLIFE',
     description: 'Explore the beauty of wildlife through stunning photography.',
     image: 'images/01.png',
     dataTarget: 1,
     lastCategory: false
   }, {
-    title: 'Travel',
+    title: 'TRAVEL',
     description: 'Capture the essence of nature with breathtaking landscapes.',
     image: 'images/01.png',
     dataTarget: 2,
     lastCategory: false
   }, {
-    title: 'Aerial',
+    title: 'AERIAL',
     description: 'Discover the charm of urban life through captivating images.',
     image: 'images/01.png',
     dataTarget: 'contact',

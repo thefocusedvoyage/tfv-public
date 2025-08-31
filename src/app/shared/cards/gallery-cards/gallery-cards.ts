@@ -22,7 +22,7 @@ export class GalleryCards implements AfterViewInit, OnDestroy {
       (gsap as any).registeredScrollTrigger = true;
     }
 
-    this.setupCoverflow();
+    this.setupTextMask();
   }
 
   ngOnDestroy(): void {
@@ -32,54 +32,61 @@ export class GalleryCards implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Scroll-scrubbed Coverflow with 3D tilt + snap-to-slide.
-   * - Pins the section while scrolling through N slides.
-   * - Maps scroll progress to the active index in [0, N-1].
-   * - Each slide is positioned with X shift, Z depth, rotateY, scale, and opacity based on distance from active.
+   * Text‑Mask Window (SVG): pin the section and crossfade SVG <image> slides
+   * through an SVG text mask. Uses subtle Ken Burns (scale + slight pan).
    */
-  private setupCoverflow() {
-    const root = this.host.nativeElement.querySelector<HTMLElement>('[data-coverflow-root]');
-    if (!root) return;
+  private setupTextMask() {
+    const root = this.host.nativeElement.querySelector<HTMLElement>('[data-mask-root]');
+    const svg = root?.querySelector<SVGSVGElement>('.text-mask-svg');
+    const title = root?.querySelector<SVGTextElement>('.mask-svg-text');
+    if (!root || !svg || !title) return;
 
-    const slides = Array.from(root.querySelectorAll<HTMLElement>('.cover-slide'));
+    const slides = Array.from(svg.querySelectorAll<SVGImageElement>('.mask-slide'));
     if (!slides.length) return;
 
-    // Create 3D space
-    gsap.set(root, { perspective: 1200 });
-    slides.forEach(el => gsap.set(el, { transformStyle: 'preserve-3d' }));
+    // Initial states for SVG images
+    slides.forEach((el, i) => {
+      gsap.set(el, { opacity: i === 0 ? 1 : 0, transformOrigin: '50% 50%' });
+    });
 
     const n = slides.length;
 
-    const st = ScrollTrigger.create({
-      trigger: root,
-      start: 'top top',
-      end: () => `+=${window.innerHeight * Math.max(1, (n - 0.2))}`,
-      pin: true,
-      scrub: true,
-      onUpdate: (self) => {
-        const p = self.progress * (n - 1);
-        slides.forEach((el, i) => {
-          const d = i - p; // distance from active slide
-          const clamped = gsap.utils.clamp(-2, 2, d);
-          const x = clamped * 180;            // side shift
-          const z = -Math.abs(clamped) * 160; // depth pushback
-          const rY = clamped * -35;           // yaw
-          const s = gsap.utils.mapRange(0, 2, 1, 0.85, Math.abs(clamped));
-          const o = gsap.utils.clamp(0.25, 1, 1 - Math.abs(clamped) / 2);
-          gsap.set(el, { x, z, rotateY: rY, scale: s, opacity: o });
-        });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: root,
+        start: 'top top',
+        end: () => `+=${window.innerHeight * (n + 0.2)}`,
+        pin: true,
+        scrub: true
       }
     });
-    this.triggers.push(st);
 
-    // Snap to the nearest slide for a premium feel
-    const snapST = ScrollTrigger.create({
-      trigger: root,
-      start: 'top top',
-      end: 'bottom bottom',
-      snap: n > 1 ? 1 / (n - 1) : 1,
-      scrub: true
+    slides.forEach((el, i) => {
+      const label = `maskFrame${i}`;
+      const panX = i % 2 ? 2 : -2; // gentle alternating pan
+      const panY = i % 2 ? -1 : 1;
+      tl.add(label)
+        // Show instantly (no fade-in)
+        .set(el, { opacity: 1 }, label)
+        // Ken Burns style pan/scale (no opacity tween)
+        .to(el, { scale: 1.10, xPercent: panX, yPercent: panY, ease: 'none', duration: 0.8 }, label)
+        // Hide instantly (no fade-out)
+        .set(el, { opacity: 0 }, `>${0.8}`);
     });
-    this.triggers.push(snapST);
+
+    // Optional: gentle tracking change on the SVG title for a luxe feel
+    const titleST = gsap.to(title, {
+      attr: { 'letter-spacing': '0.06em' },
+      scrollTrigger: {
+        trigger: root,
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      }
+    }).scrollTrigger as ScrollTrigger | undefined;
+
+    if (titleST) this.triggers.push(titleST);
+    const st = tl.scrollTrigger as ScrollTrigger | undefined;
+    if (st) this.triggers.push(st);
   }
 }
