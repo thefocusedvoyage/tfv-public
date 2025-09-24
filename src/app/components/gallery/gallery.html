@@ -1,7 +1,47 @@
 <section id="gallery" class="gallery-section vh-100 overflow-hidden">
   <div class="gallery-track d-flex flex-row h-100">
     @for (category of categories; track category) {
-      <app-gallery-cards [card]="category"></app-gallery-cards>
+      <app-gallery-cards [card]="category" (explore)="openGalleryModal($event)"></app-gallery-cards>
     }
   </div>
 </section>
+
+@if (isModalOpen && selectedCategory) {
+  <div class="gallery-modal-backdrop" role="dialog" aria-modal="true"
+       [attr.aria-label]="selectedCategory.title + ' photo gallery'"
+       (click)="closeGalleryModal()">
+    <div class="gallery-modal" tabindex="0" (click)="$event.stopPropagation()" (keydown)="handleModalKeydown($event)">
+      <div class="gallery-modal-header">
+        <div class="gallery-modal-heading text-start">
+          <h3 class="gallery-modal-title poppins-font boldest">{{ selectedCategory.title }}</h3>
+          @if (selectedCategory.description) {
+            <p class="gallery-modal-description poppins-font thin">{{ selectedCategory.description }}</p>
+          }
+        </div>
+        <button type="button" class="gallery-modal-close" aria-label="Close gallery"
+                (click)="closeGalleryModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="gallery-modal-body">
+        @if (selectedCategory.details?.length) {
+          <dl class="gallery-modal-details">
+            @for (detail of selectedCategory.details; track detail.label) {
+              <div class="gallery-modal-detail">
+                <dt class="gallery-modal-detail-label poppins-font boldest">{{ detail.label }}</dt>
+                <dd class="gallery-modal-detail-value poppins-font thin">{{ detail.value }}</dd>
+              </div>
+            }
+          </dl>
+        }
+        <div class="gallery-modal-grid">
+          @for (image of selectedCategory.images; track $index) {
+            <figure class="gallery-modal-item">
+              <img class="gallery-modal-image" [src]="image" [alt]="selectedCategory.title + ' photo ' + ($index + 1)">
+            </figure>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

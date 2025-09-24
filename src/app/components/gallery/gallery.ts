@@ -1,8 +1,18 @@
-import { Component, AfterViewInit, ElementRef, inject } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, inject, OnDestroy } from '@angular/core';
 import { gsap ,ScrollTrigger} from '../../../vendor/gsap/gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SharedModule } from '../../shared/shared';
 import { GalleryCards } from "../../shared/cards/gallery-cards/gallery-cards";
+
+interface GalleryCategory {
+  title: string;
+  description: string;
+  images: string[];
+  image?: string;
+  dataTarget: number | string;
+  lastCategory: boolean;
+  details?: Array<{ label: string; value: string }>;
+}
 
 @Component({
   selector: 'app-gallery',
@@ -10,29 +20,72 @@ import { GalleryCards } from "../../shared/cards/gallery-cards/gallery-cards";
   templateUrl: './gallery.html',
   styleUrl: './gallery.scss'
 })
-export class Gallery implements AfterViewInit {
+export class Gallery implements AfterViewInit, OnDestroy {
   private el = inject(ElementRef);
-  categories = [{
+  categories: GalleryCategory[] = [{
     title: 'WILDLIFE',
     description: 'Explore the beauty of wildlife through stunning photography.',
-    images: ['images/01.png','images/02.png','images/03.png'],
+    images: ['images/01.png','images/02.png','images/03.png', 'images/04.png','images/05.png'],
     dataTarget: 1,
     lastCategory: false
   }, {
     title: 'TRAVEL',
     description: 'Capture the essence of nature with breathtaking landscapes.',
-    images: ['images/03.png','images/04.png','images/05.png'],
+    images: ['images/03.png','images/04.png','images/05.png', 'images/04.png','images/05.png'],
     dataTarget: 2,
     lastCategory: false
   }, {
     title: 'AERIAL',
     description: 'Discover the charm of urban life through captivating images.',
-    images: ['images/06.png','images/07.png','images/08.png'],
+    images: ['images/06.png','images/07.png','images/08.png', 'images/04.png','images/05.png'],
     dataTarget: 'contact',
     lastCategory: true
   }]
 
   activeCategory = 'Wildlife';
+  isModalOpen = false;
+  selectedCategory: GalleryCategory | null = null;
+
+  openGalleryModal(category: GalleryCategory): void {
+    const images = category.images?.length ? category.images : (category.image ? [category.image] : []);
+    this.selectedCategory = { ...category, images };
+    this.isModalOpen = true;
+    this.toggleBodyScroll(true);
+    requestAnimationFrame(() => {
+      const host = this.el.nativeElement as HTMLElement;
+      const modal = host.querySelector('.gallery-modal') as HTMLElement | null;
+      modal?.focus();
+    });
+  }
+
+  closeGalleryModal(): void {
+    this.isModalOpen = false;
+    this.selectedCategory = null;
+    this.toggleBodyScroll(false);
+  }
+
+  handleModalKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closeGalleryModal();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.toggleBodyScroll(false);
+  }
+
+  private toggleBodyScroll(lock: boolean): void {
+    if (typeof document === 'undefined') return;
+    const body = document.body;
+    if (!body) return;
+    if (lock) {
+      body.classList.add('tfv-modal-open');
+    } else {
+      body.classList.remove('tfv-modal-open');
+    }
+  }
+
   ngAfterViewInit(): void {
     gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
     const gallerySection = this.el.nativeElement.querySelector('#gallery') as HTMLElement;

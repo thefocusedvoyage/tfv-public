@@ -35,7 +35,7 @@
 
     <div class="overlay-center">
       <!-- Explore more button -->
-      <button type="button" class="btn btn-light  mt-1 poppins-font thin gallery-explore-btn"  aria-label="Explore more">Explore Photos</button>
+      <button type="button" class="btn btn-light  mt-1 poppins-font thin gallery-explore-btn"   aria-label="Explore more" (click)="onExplore()">Explore Photos</button>
       <div class="gallery-scroll-arrow d-flex justify-content-center custom-arrow"
            [attr.data-target]="card?.dataTarget" role="button" tabindex="0" aria-label="Next">
         @if (!card?.lastCategory) {

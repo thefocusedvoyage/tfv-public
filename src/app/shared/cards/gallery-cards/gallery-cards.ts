@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, Input, AfterViewInit, OnDestroy, ElementRef, Output, EventEmitter } from '@angular/core';
 import { gsap, ScrollTrigger } from '../../../../vendor/gsap/gsap';
 
 @Component({
@@ -10,6 +10,7 @@ import { gsap, ScrollTrigger } from '../../../../vendor/gsap/gsap';
 export class GalleryCards implements AfterViewInit, OnDestroy {
 
   @Input() card: any = { title: '', description: '', image: '', images: [], dataTarget: 1, lastCategory: false };
+  @Output() explore = new EventEmitter<any>();
 
   private triggers: ScrollTrigger[] = [];
 
@@ -32,6 +33,10 @@ export class GalleryCards implements AfterViewInit, OnDestroy {
     this.triggers.forEach(t => t.kill());
     this.triggers = [];
     gsap.killTweensOf(this.host.nativeElement.querySelectorAll('*'));
+  }
+
+  onExplore(): void {
+    this.explore.emit(this.card);
   }
 
   /**
