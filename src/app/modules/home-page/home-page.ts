@@ -310,17 +310,17 @@ export class HomePage implements AfterViewInit, OnDestroy {
   
   
   logoTextAnimation() {
-    const isMobile = window.innerWidth <= 768; // mobile breakpoint
-    const logoEl = document.querySelector<SVGTextElement>('#info');
-      if (logoEl) {
-          const windowWidth = window.innerWidth;
-          const duration = windowWidth <= 768 ? 20 : 0.1; // slower on mobile, fast on web
-          const strokeLength = windowWidth <= 768 ? 2000 : 1000; // scale dasharray for smaller screens
-          gsap.fromTo(logoEl,
-            { strokeDasharray: strokeLength, strokeDashoffset: strokeLength },
-            { strokeDashoffset: 0, duration: duration, ease: 'power2.out' }
-          );
-        }
+    const isMobile = window.innerWidth <= 768;
+    const logoText = document.querySelector<SVGTextElement>('#info .logo-text');
+    if (!logoText) return;
+
+    const duration = isMobile ? 20 : 30;
+    const totalLength = Math.max(logoText.getComputedTextLength(), isMobile ? 1600 : 800);
+
+    gsap.fromTo(logoText,
+      { strokeDasharray: totalLength, strokeDashoffset: totalLength },
+      { strokeDashoffset: 0, duration, ease: 'power2.out' }
+    );
   }
 
 }
