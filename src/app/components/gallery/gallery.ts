@@ -26,8 +26,8 @@ export class Gallery implements AfterViewInit, OnDestroy {
     title: 'WILDLIFE',
     description: 'Explore the beauty of wildlife through stunning photography.',
     images: [
-      'images/wildlife/01.jpg',
       'images/wildlife/02.jpg',
+      'images/wildlife/01.jpg',
       'images/wildlife/03.png', 
       'images/wildlife/04.png',
       'images/wildlife/05.png',
@@ -91,7 +91,6 @@ export class Gallery implements AfterViewInit, OnDestroy {
   activeCategory = 'Wildlife';
   isModalOpen = false;
   selectedCategory: GalleryCategory | null = null;
-  private modalParallaxCleanups: Array<() => void> = [];
 
   openGalleryModal(category: GalleryCategory): void {
     const images = category.images?.length ? category.images : (category.image ? [category.image] : []);
@@ -102,12 +101,10 @@ export class Gallery implements AfterViewInit, OnDestroy {
       const host = this.el.nativeElement as HTMLElement;
       const modal = host.querySelector('.gallery-modal') as HTMLElement | null;
       modal?.focus();
-      this.setupModalParallax();
     }, 0);
   }
 
   closeGalleryModal(): void {
-    this.teardownModalParallax();
     this.isModalOpen = false;
     this.selectedCategory = null;
     this.toggleBodyScroll(false);
@@ -122,7 +119,6 @@ export class Gallery implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.toggleBodyScroll(false);
-    this.teardownModalParallax();
   }
 
   private toggleBodyScroll(lock: boolean): void {
@@ -134,129 +130,6 @@ export class Gallery implements AfterViewInit, OnDestroy {
     } else {
       body.classList.remove('tfv-modal-open');
     }
-  }
-
-  private setupModalParallax(): void {
-    const host = this.el.nativeElement as HTMLElement;
-    const scroller = host.querySelector<HTMLElement>('.gallery-modal-body');
-    const items = Array.from(host.querySelectorAll<HTMLElement>('.gallery-modal-item'));
-    if (!items.length || !scroller) return;
-
-    this.teardownModalParallax();
-
-    const clamp = gsap.utils.clamp(-1, 1);
-    const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isTouch = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
-
-    const touchConfig = {
-      intensity: reduceMotion ? 0.12 : 0.45,
-      rotX: -18,
-      rotY: 14,
-      liftY: -26,
-      depth: 55,
-      scaleBase: 0.12,
-      scaleExtra: 0.08,
-      brightBase: 0.16,
-      brightExtra: 0.1,
-      contrast: 0.1,
-      saturation: 0.06,
-      shadowBase: 0.24,
-      shadowExtra: 0.16,
-      shadowLift: 12,
-      shadowBlur: 26
-    } as const;
-
-    const desktopConfig = {
-      intensity: reduceMotion ? 0.12 : 0.6,
-      rotX: -14,
-      rotY: 10,
-      liftY: -20,
-      depth: 45,
-      scaleBase: 0.1,
-      scaleExtra: 0.05,
-      brightBase: 0.12,
-      brightExtra: 0.06,
-      contrast: 0.08,
-      saturation: 0.04,
-      shadowBase: 0.18,
-      shadowExtra: 0.12,
-      shadowLift: 9,
-      shadowBlur: 22
-    } as const;
-
-    const cfg = isTouch ? touchConfig : desktopConfig;
-
-    const transforms = items.map((item) => {
-      const image = item.querySelector<HTMLImageElement>('.gallery-modal-image');
-      if (!image) return null;
-      gsap.set(item, { transformPerspective: 800, transformStyle: 'preserve-3d' });
-      return { item, image };
-    }).filter(Boolean) as Array<{ item: HTMLElement; image: HTMLImageElement }>;
-
-    if (!transforms.length) return;
-
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const bodyRect = scroller.getBoundingClientRect();
-      const viewport = bodyRect.height || scroller.clientHeight || 1;
-      const midpoint = bodyRect.top + viewport / 2;
-
-      transforms.forEach(({ item, image }) => {
-        const rect = item.getBoundingClientRect();
-        const itemMid = rect.top + rect.height / 2;
-        const normal = clamp((itemMid - midpoint) / (viewport * 0.4)) * cfg.intensity;
-        const depth = 1 - Math.min(1, Math.abs(normal));
-        const shadowLift = Math.max(5, depth * cfg.shadowLift);
-        const shadowBlur = cfg.shadowBlur + (1 - depth) * cfg.shadowBlur * 0.8;
-        const shadowAlpha = cfg.shadowBase + (1 - depth) * cfg.shadowExtra;
-
-        gsap.to(item, {
-          rotationX: normal * cfg.rotX,
-          rotationY: normal * cfg.rotY,
-          y: normal * cfg.liftY,
-          z: depth * cfg.depth,
-          boxShadow: `0 ${shadowLift}px ${shadowBlur}px rgba(0,0,0,${shadowAlpha})`,
-          duration: 0.6,
-          ease: 'power3.out',
-          overwrite: 'auto'
-        });
-
-        gsap.to(image, {
-          scale: 1 + (1 - depth) * (cfg.scaleBase + cfg.scaleExtra),
-          filter: `brightness(${1 + (1 - depth) * (cfg.brightBase + cfg.brightExtra)}) contrast(${1 + (1 - depth) * cfg.contrast}) saturation(${1 + (1 - depth) * cfg.saturation})`,
-          duration: 0.6,
-          ease: 'power3.out',
-          overwrite: 'auto'
-        });
-      });
-    };
-
-    const requestUpdate = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(update);
-    };
-
-    scroller.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate, { passive: true });
-    requestUpdate();
-
-    this.modalParallaxCleanups.push(() => {
-      scroller.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
-      if (raf) cancelAnimationFrame(raf);
-      transforms.forEach(({ item, image }) => {
-        gsap.killTweensOf([item, image]);
-        gsap.set(item, { rotationX: 0, rotationY: 0, y: 0, z: 0, boxShadow: '0 16px 32px rgba(0,0,0,0.25)' });
-        gsap.set(image, { scale: 1, filter: 'brightness(1) contrast(1) saturation(1)' });
-      });
-    });
-  }
-
-  private teardownModalParallax(): void {
-    if (!this.modalParallaxCleanups.length) return;
-    this.modalParallaxCleanups.forEach(fn => fn());
-    this.modalParallaxCleanups = [];
   }
 
   ngAfterViewInit(): void {

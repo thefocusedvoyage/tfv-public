@@ -26,14 +26,14 @@ export class Loader implements AfterViewInit {
     gsap.set(paths, { drawSVG: '0%' });
     gsap.to(paths, {
       drawSVG: '100%',
-      duration: 2,
+      duration: 1,
       stagger: 0.1,
       ease: 'power1.inOut',
       onComplete: () => {
         gsap.to('.logo-loader', {
           opacity: 0,
           duration: 0.5,
-          delay: 1,
+          delay: 0.3,
           onComplete: () => {
             this.showLoader = false;
             this.cdr.detectChanges(); // Ensure change detection runs to update the view
