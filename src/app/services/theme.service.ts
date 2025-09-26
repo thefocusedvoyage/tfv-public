@@ -24,6 +24,7 @@
         const theme = isNight ? 'dark' : 'light';
         this._theme.next(theme);
         document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
       }
 
       loadTheme(theme?: string) {

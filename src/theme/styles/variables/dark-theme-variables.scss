@@ -45,6 +45,17 @@
         --border-400: #202020;
         --border-500: #1A1A1A;
 
+        /* Modal surface tokens */
+        --modal-backdrop: rgba(0, 0, 0, 0.82);
+        --modal-surface: #0f1115;
+        --modal-surface-header: rgba(15, 17, 21, 0.95);
+        --modal-divider: rgba(255, 255, 255, 0.08);
+        --modal-text: rgba(255, 255, 255, 0.94);
+        --modal-text-muted: rgba(255, 255, 255, 0.72);
+        --modal-card-bg: rgba(255, 255, 255, 0.06);
+        --modal-close-bg: rgba(255, 255, 255, 0.12);
+        --modal-close-hover: rgba(255, 255, 255, 0.24);
+
         /* Sky (dark pastel tones) */
           --sky-50: #ffffff; /* deep midnight blue */ 
           --sky-100: #63005e; /* late twilight navy */ 

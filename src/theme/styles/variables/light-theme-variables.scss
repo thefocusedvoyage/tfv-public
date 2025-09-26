@@ -33,15 +33,26 @@
       --highlight-200: #FFB3B3;
       --highlight-300: #FF9999;
       --highlight-400: #FF7F7F;
-      --highlight-500: #FF6666;
+  --highlight-500: #FF6666;
 
-      /* Borders / Dividers (soft pastel grays) */
-      --border-50: #F5F5F5;
-      --border-100: #EDEDED;
-      --border-200: #E5E5E5;
-      --border-300: #DDDDDD;
-      --border-400: #D5D5D5;
-      --border-500: #CCCCCC;
+  /* Borders / Dividers (soft pastel grays) */
+  --border-50: #F5F5F5;
+  --border-100: #EDEDED;
+  --border-200: #E5E5E5;
+  --border-300: #DDDDDD;
+  --border-400: #D5D5D5;
+  --border-500: #CCCCCC;
+
+  /* Modal surface tokens */
+  --modal-backdrop: rgba(255, 255, 255, 0.68);
+  --modal-surface: rgba(255, 255, 255, 0.96);
+  --modal-surface-header: rgba(255, 255, 255, 0.9);
+  --modal-divider: rgba(0, 0, 0, 0.08);
+  --modal-text: var(--text-400);
+  --modal-text-muted: rgba(34, 34, 34, 0.68);
+  --modal-card-bg: rgba(0, 0, 0, 0.04);
+  --modal-close-bg: rgba(0, 0, 0, 0.08);
+  --modal-close-hover: rgba(0, 0, 0, 0.16);
 
       /* ============================
      SKY – pastel lavender-blue with sunrise glow
