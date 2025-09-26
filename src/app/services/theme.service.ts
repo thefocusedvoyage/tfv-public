@@ -17,6 +17,15 @@
         localStorage.setItem('theme', newTheme); // Persist theme
       }
 
+      loadThemeBasedOnTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const isNight = hours < 6 || hours >= 18; // treat 6pm-6am as night
+        const theme = isNight ? 'dark' : 'light';
+        this._theme.next(theme);
+        document.body.setAttribute('data-theme', theme);
+      }
+
       loadTheme(theme?: string) {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
